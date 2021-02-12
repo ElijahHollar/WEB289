@@ -6,17 +6,62 @@ header {
   background-color: beige;
 }
 
+header a {
+  color: #fff;
+  text-decoration: none;
+}
+
 header ul li {
   display: inline-block;
-}
+  line-height: 40px;
+  height: 40px;
   width: 150px;
+}
 
 header ul a {
   background-color: #6f4a05;
-  padding: 10px 25px;
+  display: inline-block;
+  height: 100%;
   text-align: center;
+  width: 100%;
 }
 
 header ul li:nth-of-type(3) {
   color: #fff;
+  cursor: pointer;
+}
+
+.dropbtn {
+  position: relative;
+}
+
+.dropbtn:after {
+  content: '\25BC';
+  position: absolute;
+  top: 1px;
+  right: 10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+}
+
+.dropdown-content a {
+  background-color: #535a50;
+  display: block;
+  height: 40px;
+  width: 150px;
+}
+
+.dropdown-content a:hover {
+  background-color: #535a50;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content li {
+  display: block;
 }
