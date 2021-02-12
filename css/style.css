@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+}
+
+header {
+  background-color: beige;
+}
+
+header ul li {
+  display: inline-block;
+}
+  width: 150px;
+
+header ul a {
+  background-color: #6f4a05;
+  padding: 10px 25px;
+  text-align: center;
+}
+
+header ul li:nth-of-type(3) {
+  color: #fff;
+}
