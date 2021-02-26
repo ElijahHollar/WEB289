@@ -12,14 +12,14 @@
       <h1>Bookup: The Book Lookup Tool</h1>
       <nav role="navigation">
         <ul>
-          <li><a href="#" class="current-page">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li class="dropdown">
-            <a class="dropbtn">Subjects</a>
+            <a class="dropbtn current-page">Subjects</a>
             <ul class="dropdown-content">
-              <a href="subject.php">Fantasy</a>
-              <a href="subject.php">Science Fiction</a>
-              <a href="subject.php">Historical</a>
+              <a href="#">Fantasy</a>
+              <a href="#">Science Fiction</a>
+              <a href="#">Historical</a>
             </ul>
           </li>
           <li><a href="bookshelf.php">My Bookshelf</a></li>
@@ -40,11 +40,10 @@
             <input type="submit" value="Search">
           </form>
         </div>
-       </nav>
+      </nav>
     </header>
-    <main role="main">
-      <h1>Welcome</h1>
-      <p>Welcome to Bookup's official website. We hope that you have a pleasant experience.</p>
+    <main>
+      <h1></h1>
     </main>
   </body>
 </html>
