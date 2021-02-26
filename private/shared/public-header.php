@@ -1,8 +1,10 @@
+<?php $subject_path = 'subject.php' ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
     <title>Bookup: Home</title>
   </head>
 
@@ -12,14 +14,14 @@
       <h1>Bookup: The Book Lookup Tool</h1>
       <nav role="navigation">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="#" class="current-page">About</a></li>
+          <li><a href="index.php" class="current-page">Home</a></li>
+          <li><a href="about.php">About</a></li>
           <li class="dropdown">
             <a class="dropbtn">Subjects</a>
             <ul class="dropdown-content">
-              <a href="subject.php">Fantasy</a>
-              <a href="subject.php">Science Fiction</a>
-              <a href="subject.php">Historical</a>
+              <a href="<?php $subject_path ?>">Fantasy</a>
+              <a href="<?php $subject_path ?>">Science Fiction</a>
+              <a href="<?php $subject_path ?>">Historical</a>
             </ul>
           </li>
           <li><a href="bookshelf.php">My Bookshelf</a></li>
@@ -40,10 +42,5 @@
             <input type="submit" value="Search">
           </form>
         </div>
-      </nav>
+       </nav>
     </header>
-    <main>
-      <h1>About</h1>
-    </main>
-  </body>
-</html>
