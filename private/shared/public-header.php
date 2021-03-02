@@ -14,20 +14,21 @@
       <h1>Bookup: The Book Lookup Tool</h1>
       <nav role="navigation">
         <ul>
-          <li><a href="index.php" class="current-page">Home</a></li>
+          <li><a href="index.php">Home</a></li>
           <li><a href="about.php">About</a></li>
           <li class="dropdown">
             <a class="dropbtn">Subjects</a>
             <ul class="dropdown-content">
-              <a href="<?php $subject_path ?>">Fantasy</a>
-              <a href="<?php $subject_path ?>">Science Fiction</a>
-              <a href="<?php $subject_path ?>">Historical</a>
+              <a href="<?php echo($subject_path) ?>">Fantasy</a>
+              <a href="<?php echo($subject_path) ?>">Science Fiction</a>
+              <a href="<?php echo($subject_path) ?>">Historical</a>
             </ul>
           </li>
           <li><a href="bookshelf.php">My Bookshelf</a></li>
         </ul>
         <div>
-          <a class="login">Log In</a>
+          <a href="login.php" class="login">Log In</a>
+          <a href="signup.php" class="login">Sign Up</a>
           <form>
             <label for="search">Search:</label>
             <input type="text" id="search" name="search">

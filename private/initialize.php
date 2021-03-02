@@ -5,8 +5,8 @@
   // dirname() returns the path to the parent directory
   define("PRIVATE_PATH", dirname(__FILE__));
   define("SITE_PATH", dirname(PRIVATE_PATH));
-  define("PUBLIC_PATH", SITE_PATH . '\public');
-  define("SHARED_PATH", PRIVATE_PATH . '\shared');
+  define("PUBLIC_PATH", SITE_PATH . '/public');
+  define("SHARED_PATH", PRIVATE_PATH . '/shared');
 
   // Assign the root URL to a PHP constant
   // * Do not need to include the domain
@@ -23,5 +23,9 @@
   require_once("database-connection.php");
   require_once("status-error-functions.php");
   require_once("validation-functions.php");
+
+  include("classes/session.class.php");
+  include("classes/database-object.class.php");
+  include("classes/admin.class.php");
 
   $database = db_connect();
