@@ -1,7 +1,5 @@
 <?php
 
-echo("DatabaseObject loaded");
-
 class DatabaseObject {
 
   static protected $database;
