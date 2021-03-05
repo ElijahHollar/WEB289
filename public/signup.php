@@ -2,25 +2,25 @@
 
 require_once('../private/initialize.php');
 
-// if(is_post_request()) {
+if(is_post_request()) {
 
-//   // Create record using post parameters
-//   $args = $_POST['admin'];
-//   $admin = new Admin($args);
-//   $result = $admin->save();
+  // Create record using post parameters
+  $args = $_POST['admin'];
+  $admin = new Admin($args);
+  $result = $admin->save();
 
-//   if($result === true) {
-//     $session->login($admin);
-//     $session->message('You are now a member of the Bookup family! You may now save books to your bookshelf for later viewing.');
-//     redirect_to(url_for('index.php'));
-//   } else {
-//     // show errors
-//   }
+  if($result === true) {
+    $session->login($admin);
+    $session->message('You are now a member of the Bookup family! You may now save books to your bookshelf for later viewing.');
+    redirect_to(url_for('index.php'));
+  } else {
+    // show errors
+  }
 
-// } else {
-//   // display the form
-//   $admin = new Admin;
-// }
+} else {
+  // display the form
+  $admin = new Admin;
+}
 
 include(SHARED_PATH . '/public-header.php');
 
