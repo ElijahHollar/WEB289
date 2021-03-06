@@ -29,7 +29,7 @@
         <div>
           <a href="login.php" class="login">Log In</a>
           <a href="signup.php" class="login">Sign Up</a>
-          <form>
+          <form class="search-form">
             <label for="search">Search:</label>
             <input type="text" id="search" name="search">
             <label for="search-type">By:</label>

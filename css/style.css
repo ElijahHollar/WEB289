@@ -104,14 +104,14 @@ nav div {
   grid-column: 2;
 }
 
-form {
+.search-form {
   display: inline;
   grid-column: span 2;
   margin: 0 0 0 auto;
 }
 
-form label:nth-of-type(2),
-input:last-of-type {
+.search-form label:nth-of-type(2),
+.search-form input:last-of-type {
   margin-left: 10px;
 }
 
