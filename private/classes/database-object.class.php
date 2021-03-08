@@ -3,7 +3,7 @@
 class DatabaseObject {
 
   static protected $database;
-  static protected $table_name = "";
+  static protected $table_name = "user";
   static protected $columns = [];
   public $errors = [];
 
@@ -28,7 +28,7 @@ class DatabaseObject {
 
   static public function find_by_id($id) {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE id=" . self::$database->quote($id);
+    $sql .= "WHERE user_id=" . self::$database->quote($id);
     $object_array = static::find_by_sql($sql);
     if(!empty($object_array)) {
         return array_shift($object_array);
@@ -75,8 +75,8 @@ class DatabaseObject {
     $result = $stmt->execute();
 
     if( $result ) {
-        $this->id = self::$database->lastInsertID();
-    } else  echo "Insert query did not run";
+        $this->user_id = self::$database->lastInsertID();
+    } else  echo "Insert query did not run:" . $sql;
     
     return $result;    
   }
@@ -93,7 +93,7 @@ class DatabaseObject {
 
     $sql = "UPDATE " . static::$table_name . " SET ";
     $sql .= join(", ", $attribute_pairs);
-    $sql .= " WHERE id=" . self::$database->quote($this->id) . " ";
+    $sql .= " WHERE user_id=" . self::$database->quote($this->id) . " ";
     $sql .= "LIMIT 1";
 
     $stmt = self::$database->prepare($sql);
@@ -122,7 +122,7 @@ class DatabaseObject {
   public function attributes() {
     $attributes = [];
     foreach(static::$db_columns as $column) {
-        if( $column == 'id' ) { continue; }
+        if( $column == 'user_id' ) { continue; }
         $attributes[$column] = $this->$column;
     }
     return $attributes;
@@ -138,10 +138,10 @@ class DatabaseObject {
 
   public function delete() {
     $sql = "DELETE FROM " . static::$table_name . " ";
-    $sql .= "WHERE id=" . self::$database->quote($this->id) . " ";
+    $sql .= "WHERE user_id=" . self::$database->quote($this->id) . " ";
     $sql .= "LIMIT 1";
     $stmt = self::$database->prepare($sql);
-    $stmt->bindValue(':id', $this->id);
+    $stmt->bindValue(':user_id', $this->id);
     $result = $stmt->execute();
     return $result;
 

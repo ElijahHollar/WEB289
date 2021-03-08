@@ -27,6 +27,11 @@
           <li><a href="bookshelf.php">My Bookshelf</a></li>
         </ul>
         <div>
+          <?php 
+            if($session->is_logged_in()) { ?>
+              <p class="username">User: <?php echo $session->username; ?></p>
+          <?php  }
+          ?>
           <a href="login.php" class="login">Log In</a>
           <a href="signup.php" class="login">Sign Up</a>
           <form class="search-form">
@@ -45,3 +50,5 @@
         </div>
        </nav>
     </header>
+
+    <?php echo display_session_message(); ?>
