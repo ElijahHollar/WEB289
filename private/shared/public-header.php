@@ -1,4 +1,4 @@
-<?php $subject_path = 'subject.php' ?>
+<?php $subject_path = 'subject.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,9 +19,9 @@
           <li class="dropdown">
             <a class="dropbtn">Subjects</a>
             <ul class="dropdown-content">
-              <a href="<?php echo($subject_path) ?>">Fantasy</a>
-              <a href="<?php echo($subject_path) ?>">Science Fiction</a>
-              <a href="<?php echo($subject_path) ?>">Historical</a>
+              <a href="<?php echo($subject_path . "?subject=Fantasy") ?>">Fantasy</a>
+              <a href="<?php echo($subject_path . "?subject=Science Fiction") ?>">Science Fiction</a>
+              <a href="<?php echo($subject_path . "?subject=Historical") ?>">Historical</a>
             </ul>
           </li>
           <?php if($session->is_logged_in()) { ?>
