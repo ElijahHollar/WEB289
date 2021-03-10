@@ -2,50 +2,65 @@
 
 require_once('../private/initialize.php');
 
-// if(is_post_request()) {
+$errors = [];
+$username = '';
+$password = '';
 
-//   // Create record using post parameters
-//   $args = $_POST['admin'];
-//   $admin = new Admin($args);
-//   $result = $admin->save();
+if(is_post_request()) {
 
-//   if($result === true) {
-//     $session->login($admin);
-//     $session->message('You are now a member of the Bookup family! You may now save books to your bookshelf for later viewing.');
-//     redirect_to(url_for('index.php'));
-//   } else {
-//     // show errors
-//   }
+  $username = $_POST['username'] ?? '';
+  $password = $_POST['password'] ?? '';
 
-// } else {
-//   // display the form
-//   $admin = new Admin;
-// }
+  // Validations
+  if(is_blank($username)) {
+    $errors[] = "Username cannot be blank.";
+  }
+  if(is_blank($password)) {
+    $errors[] = "Password cannot be blank.";
+  }
+
+  // if there were no errors, try to login
+  if(empty($errors)) {
+    $admin = Admin::find_by_username($username);
+    // test if admin found and password is correct
+    if($admin != false && $admin->verify_password($password)) {
+      // Mark admin as logged in
+      $session->login($admin);
+      $session->message('Welcome ' . $username . ', you have successfully logged in.');
+      if ($session->user_level == 'm') {
+        redirect_to(url_for('/index.php'));
+      } else {
+        redirect_to(url_for('/index.php'));
+      }
+    } else {
+      // username not found or password does not match
+      $errors[] = "Log in was unsuccessful. Please try again.";
+    }
+
+  }
+
+}
 
 include(SHARED_PATH . '/public-header.php');
 
 ?>
 
-
     <main>
       <h1>Log In</h1>
       <p>Please fill out the form below to log in:</p>
-      <form action="<?php echo url_for('signup.php');?>" method="post">
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="admin[email]" value="<?php echo h($admin->email); ?>">
+      <?php echo display_errors($errors); ?>
+
+      <form action="<?php echo url_for('login.php');?>" method="post">
 
         <label for="username">Username:</label>
-        <input type="text" id="username" name="admin[username]" value="<?php echo h($admin->username); ?>">
+        <input type="text" id="username" name="username" value="<?php echo h($username); ?>">
 
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="admin[password]" value="">
+        <input type="password" id="password" name="password" value="">
 
-        <label for="confirm-pass">Confirm Password:</label>
-        <input type="password" id="confirm-pass" name="admin[confirm_password]" value="">
-
-        <input type="submit" value="Sign Up">
+        <input type="submit" value="Log In">
       </form>
     </main>
   </body>

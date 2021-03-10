@@ -2,32 +2,33 @@
 
  class Admin extends DatabaseObject {
     
-    static protected $table_name = 'users';
-    static protected $db_columns = ['id', 'email', 'username', 'hashed_password', 'user_level'];
+    static protected $table_name = 'user';
+    static protected $id_name = 'user_id';
+    static protected $db_columns = ['user_id', 'user_email_address', 'user_username', 'user_password', 'user_level'];
 
-    public $id;
-    public $email;
-    public $username;
+    public $user_id;
+    public $user_email_address;
+    public $user_username;
     public $user_level;
-    protected $hashed_password;
+    protected $user_password;
     public $password;
     public $confirm_password;
     protected $password_required = true;
 
     public function __construct($args=[]) {
-        $this->email = $args['email'] ?? '';
-        $this->username = $args['username'] ?? '';
+        $this->user_email_address = $args['user_email_address'] ?? '';
+        $this->user_username = $args['user_username'] ?? '';
         $this->user_level = $args['user_level'] ?? 'm';
         $this->password = $args['password'] ?? '';
         $this->confirm_password = $args['confirm_password'] ?? '';
     }
 
     protected function set_hashed_password() {
-        $this->hashed_password = password_hash($this->password, PASSWORD_BCRYPT);
+        $this->user_password = password_hash($this->password, PASSWORD_BCRYPT);
     }
 
     public function verify_password($password) {
-      return password_verify($password, $this->hashed_password);
+      return password_verify($password, $this->user_password);
     }
 
     public function create() {
@@ -49,19 +50,19 @@
     protected function validate() {
         $this->errors = [];
       
-        if(is_blank($this->email)) {
+        if(is_blank($this->user_email_address)) {
           $this->errors[] = "Email cannot be blank.";
-        } elseif (!has_length($this->email, array('max' => 255))) {
+        } elseif (!has_length($this->user_email_address, array('max' => 255))) {
           $this->errors[] = "Last name must be less than 255 characters.";
-        } elseif (!has_valid_email_format($this->email)) {
+        } elseif (!has_valid_email_format($this->user_email_address)) {
           $this->errors[] = "Email must be a valid format.";
         }
       
-        if(is_blank($this->username)) {
+        if(is_blank($this->user_username)) {
           $this->errors[] = "Username cannot be blank.";
-        } elseif (!has_length($this->username, array('min' => 8, 'max' => 255))) {
+        } elseif (!has_length($this->user_username, array('min' => 8, 'max' => 255))) {
           $this->errors[] = "Username must be between 8 and 255 characters.";
-        } elseif (!has_unique_username($this->username, $this->id ?? 0)) {
+        } elseif (!has_unique_username($this->user_username, $this->user_id ?? 0)) {
           $this->errors[] = "Username not allowed. Try another.";
         }
 
@@ -90,9 +91,9 @@
         return $this->errors;
     }
     
-    static public function find_by_username($username) {
+    static public function find_by_username($user_username) {
       $sql = "SELECT * FROM " . static::$table_name . " ";
-      $sql .= "WHERE username=" . self::$database->quote($username);
+      $sql .= "WHERE user_username=" . self::$database->quote($user_username);
       $object_array = static::find_by_sql($sql);
       if(!empty($object_array)) {
           return array_shift($object_array);

@@ -1,10 +1,10 @@
-<?php $subject_path = 'subject.php'; ?>
+<?php $subject_path = 'subject.php' ?>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
     <title>Bookup: Home</title>
   </head>
 
@@ -14,27 +14,14 @@
       <h1>Bookup: The Book Lookup Tool</h1>
       <nav role="navigation">
         <ul>
-          <li><a href="index.php">Home</a></li>
-          <li><a href="about.php">About</a></li>
-          <li class="dropdown">
-            <a class="dropbtn">Subjects</a>
-            <ul class="dropdown-content">
-              <a href="<?php echo($subject_path . "?subject=Fantasy") ?>">Fantasy</a>
-              <a href="<?php echo($subject_path . "?subject=Science Fiction") ?>">Science Fiction</a>
-              <a href="<?php echo($subject_path . "?subject=Historical") ?>">Historical</a>
-            </ul>
-          </li>
-          <?php if($session->is_logged_in()) { ?>
-            <li><a href="bookshelf.php">My Bookshelf</a></li>
-          <?php } ?>
+          <li><a href="../index.php">Site Home</a></li>
+          <li><a href="category/index.php">Categories</a></li>
+          <li><a href="review/index.php">Reviews</a></li>
         </ul>
         <div>
           <?php if($session->is_logged_in()) { ?>
             <p class="username">User: <?php echo $session->username; ?></p>
-            <a href="logout.php" class="login">Log Out</a>
-          <?php } ?>      
-          <?php if($session->is_admin()) { ?>
-            <a href="admins/index.php" class="login">Backend</a>
+            <a href="<?php echo url_for("public/logout.php")?>" class="login">Log Out</a>
           <?php } ?>
 
           <?php if(!$session->is_logged_in()) { ?>

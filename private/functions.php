@@ -20,3 +20,11 @@ function is_post_request() {
 function is_get_request() {
   return $_SERVER['REQUEST_METHOD'] == 'GET';
 }
+
+function u($string="") {
+  return urlencode($string);
+}
+
+function h($string="") {
+  return htmlspecialchars($string);
+}

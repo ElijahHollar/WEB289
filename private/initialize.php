@@ -27,5 +27,10 @@
   include("classes/session.class.php");
   include("classes/database-object.class.php");
   include("classes/admin.class.php");
+  include("classes/category.class.php");
+  include("classes/review.class.php");
 
   $database = db_connect();
+  DatabaseObject::set_database($database);
+
+  $session = new Session;
