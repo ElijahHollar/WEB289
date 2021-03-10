@@ -3,6 +3,7 @@
  class Admin extends DatabaseObject {
     
     static protected $table_name = 'user';
+    static protected $id_name = 'user_id';
     static protected $db_columns = ['user_id', 'user_email_address', 'user_username', 'user_password', 'user_level'];
 
     public $user_id;

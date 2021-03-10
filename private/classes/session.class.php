@@ -14,13 +14,17 @@ class Session {
     $this->check_stored_login();
   }
 
+  public function get_username() {
+    return $this->username;
+  }
+
   public function login($admin) {
     if($admin) {
       // prevents session fixation attacks
       session_regenerate_id();
-      $this->admin_id = $_SESSION['admin_id'] = $admin->id;
+      $this->admin_id = $_SESSION['admin_id'] = $admin->user_id;
 
-      $this->username = $_SESSION['username'] = $admin->username;
+      $this->username = $_SESSION['username'] = $admin->user_username;
 
       $this->user_level = $_SESSION['user_level'] = $admin->user_level;
 
@@ -28,11 +32,19 @@ class Session {
     }
     return true;
   }
-
+  
   public function is_logged_in() {
     // return isset($this->admin_id);
     return isset($this->admin_id) && $this->last_login_is_recent();
-
+    
+  }
+  
+  public function is_admin() {
+    if($this->is_logged_in() && $this->user_level == 'a') {
+      return true;
+    } else {
+      // $session->message("Access denied.");
+    }
   }
 
   public function logout() {

@@ -3,6 +3,7 @@
 function require_login() {
   global $session;
   if(!$session->is_logged_in()) {
+    $session->message("You must be logged in to access this page.");
     redirect_to(url_for('index.php'));
   } else {
     // Do nothing, let the rest of the page proceed
@@ -12,7 +13,7 @@ function require_login() {
 function require_admin() {
   global $session;
   if($session->user_level !== 'a') {
-    redirect_to(url_for('/bird-staff/index.php'));
+    redirect_to(url_for('/index.php'));
   } else {
     // Let the page load
   }
