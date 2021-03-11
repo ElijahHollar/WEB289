@@ -28,9 +28,9 @@ if(is_post_request()) {
       $session->login($admin);
       $session->message('Welcome ' . $username . ', you have successfully logged in.');
       if ($session->user_level == 'm') {
-        redirect_to(url_for('/index.php'));
+        redirect_to(url_for('/index.php?current-page=home'));
       } else {
-        redirect_to(url_for('/index.php'));
+        redirect_to(url_for('/admins/index.php?current-page='));
       }
     } else {
       // username not found or password does not match
@@ -51,7 +51,7 @@ include(SHARED_PATH . '/public-header.php');
 
       <?php echo display_errors($errors); ?>
 
-      <form action="<?php echo url_for('login.php');?>" method="post">
+      <form action="<?php echo url_for('login.php?current-page=');?>" method="post">
 
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" value="<?php echo h($username); ?>">

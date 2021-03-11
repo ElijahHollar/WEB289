@@ -7,3 +7,9 @@
   include(SHARED_PATH . "/admin-header.php");
 
 ?>
+
+    <main>
+      <h1>Admin Section</h1>
+    </main>
+  </body>
+</html>

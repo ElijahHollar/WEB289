@@ -12,7 +12,7 @@ if(is_post_request()) {
   if($result === true) {
     $session->login($admin);
     $session->message('You are now a member of the Bookup family! You may now save books to your bookshelf for later viewing.');
-    redirect_to(url_for('index.php'));
+    redirect_to(url_for('index.php?current-page=home'));
   } else {
     // show errors
   }
@@ -33,7 +33,7 @@ include(SHARED_PATH . '/public-header.php');
 
       <?php echo display_errors($admin->errors); ?>
 
-      <form action="<?php echo url_for('/signup.php'); ?>" method="post">
+      <form action="<?php echo url_for('/signup.php?current-page='); ?>" method="post">
 
         <div>
           <label for="email">Email:</label>

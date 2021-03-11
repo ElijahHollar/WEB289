@@ -28,8 +28,8 @@
             <td><?php echo h($review->review_isbn); ?></td>
             <td><?php echo h($review->review_text); ?></td>
             <td><?php echo h($review->review_date); ?></td>
-            <td><a class="action" href="<?php echo url_for('admins/review/show.php?id=' . h(u($review->review_id))); ?>">Show</a></td>
-            <td><a class="action" href="<?php echo url_for('admins/review/delete.php?id=' . h(u($review->review_id))); ?>">Delete</a></td>
+            <td><a class="action" href="<?php echo url_for('admins/review/show.php?current-page=&id=' . h(u($review->review_id))); ?>">Show</a></td>
+            <td><a class="action" href="<?php echo url_for('admins/review/delete.php?current-page=&id=' . h(u($review->review_id))); ?>">Delete</a></td>
           </tr>
         <?php } ?>
       </table>
