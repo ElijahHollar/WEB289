@@ -41,7 +41,7 @@
             <a href="login.php" class="login">Log In</a>
             <a href="signup.php" class="login">Sign Up</a>
           <?php } ?>
-          <form class="search-form">
+          <form class="search-form" action="<?php echo url_for('search.php'); ?>" method="post">
             <label for="search">Search:</label>
             <input type="text" id="search" name="search">
             <label for="search-type">By:</label>

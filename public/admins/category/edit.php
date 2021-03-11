@@ -34,11 +34,11 @@ if(is_post_request()) {
 
 ?>
 
-<?php include(SHARED_PATH . "/category-header.php"); ?>
+<?php include(SHARED_PATH . "/admin-header.php"); ?>
 
 
     <main>
-      <a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a>
+      <p class="backlink"><a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a></p>
 
       <h1>Edit Category</h1>
 
