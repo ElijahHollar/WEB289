@@ -10,7 +10,6 @@ if(!isset($_GET['id'])) {
 }
 
 $id = $_GET['id'];
-var_dump($id);
 $category = Category::find_by_id($id);
 if($category == false) {
   redirect_to(url_for('admins/category/index.php'));
@@ -40,7 +39,7 @@ if(is_post_request()) {
 
     <main>
       <a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a>
-      
+
       <h1>Edit Category</h1>
 
       <?php echo display_errors($category->errors); ?>
