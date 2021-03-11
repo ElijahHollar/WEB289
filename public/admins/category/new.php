@@ -9,8 +9,6 @@ if(is_post_request()) {
 
   $args = $_POST['category'];
 
-  var_dump($args);
-
   $category = new Category($args);
   $result = $category->save();
 
