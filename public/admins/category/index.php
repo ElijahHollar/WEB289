@@ -6,12 +6,12 @@
 
   $categories = Category::find_all();
 
-  include(SHARED_PATH . "/category-header.php");
+  include(SHARED_PATH . "/admin-header.php");
 
 ?>
     <main>
 
-      <a href="new.php">Add new Category</a>
+      <p class="new-btn"><a class="new-btn" href="new.php">Add new Category</a></p>
 
       <table class="list">
         <tr>

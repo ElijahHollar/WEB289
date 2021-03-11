@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link href="../../css/style.css" rel="stylesheet">
+    <link href="<?php echo url_for('../css/style.css'); ?>" rel="stylesheet">
     <title>Bookup: Home</title>
   </head>
 
@@ -14,9 +14,9 @@
       <h1>Bookup: The Book Lookup Tool</h1>
       <nav role="navigation">
         <ul>
-          <li><a href="../index.php">Site Home</a></li>
-          <li><a href="category/index.php">Categories</a></li>
-          <li><a href="review/index.php">Reviews</a></li>
+          <li><a href="<?php echo url_for("index.php"); ?>">Site Home</a></li>
+          <li><a href="<?php echo url_for("admins/category/index.php"); ?>">Categories</a></li>
+          <li><a href="<?php echo url_for("admins/review/index.php"); ?>">Reviews</a></li>
         </ul>
         <div>
           <?php if($session->is_logged_in()) { ?>
@@ -28,7 +28,7 @@
             <a href="login.php" class="login">Log In</a>
             <a href="signup.php" class="login">Sign Up</a>
           <?php } ?>
-          <form class="search-form">
+          <form class="search-form" action="<?php echo url_for('search.php'); ?>" method="post">
             <label for="search">Search:</label>
             <input type="text" id="search" name="search">
             <label for="search-type">By:</label>

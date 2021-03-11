@@ -6,7 +6,7 @@
 
   $reviews = Review::find_all();
 
-  include(SHARED_PATH . "/category-header.php");
+  include(SHARED_PATH . "/admin-header.php");
 
 ?>
     <main>
