@@ -21,7 +21,7 @@
         <div>
           <?php if($session->is_logged_in()) { ?>
             <p class="username">User: <?php echo $session->username; ?></p>
-            <a href="<?php echo url_for("public/logout.php")?>" class="login">Log Out</a>
+            <a href="<?php echo url_for("logout.php")?>" class="login">Log Out</a>
           <?php } ?>
 
           <?php if(!$session->is_logged_in()) { ?>
