@@ -1,5 +1,8 @@
 <?php 
   require_once('../private/initialize.php'); 
+  
+  $current_page = 'subject';
+
   include(SHARED_PATH . '/public-header.php');
   
   $subject_type = $_GET['subject'] ?? 'Fantasy';

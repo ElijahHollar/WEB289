@@ -2,7 +2,9 @@
 
 $subject_path = 'subject.php'; 
 
-$current_page = $_GET['current-page'];
+if(!isset($current_page)) {
+  $current_page = '';
+}
 
 ?>
 
@@ -20,34 +22,34 @@ $current_page = $_GET['current-page'];
       <h1>Bookup: The Book Lookup Tool</h1>
       <nav role="navigation">
         <ul>
-          <li><a class="<?php if($current_page == "home") { echo "current-page"; } ?>" href="index.php?current-page=home">Home</a></li>
-          <li><a class="<?php if($current_page == "about") { echo "current-page"; } ?>" href="about.php?current-page=about">About</a></li>
+          <li><a class="<?php if($current_page == "home") { echo "current-page"; } ?>" href="index.php">Home</a></li>
+          <li><a class="<?php if($current_page == "about") { echo "current-page"; } ?>" href="about.php">About</a></li>
           <li class="dropdown">
             <a class="dropbtn <?php if($current_page == "subject") { echo "current-page"; } ?>">Subjects</a>
             <ul class="dropdown-content">
-              <a href="<?php echo($subject_path . "?current-page=subject&subject=Fantasy") ?>">Fantasy</a>
-              <a href="<?php echo($subject_path . "?current-page=subject&subject=Science Fiction") ?>">Science Fiction</a>
-              <a href="<?php echo($subject_path . "?current-page=subject&subject=Historical") ?>">Historical</a>
+              <a href="<?php echo($subject_path . "?subject=Fantasy") ?>">Fantasy</a>
+              <a href="<?php echo($subject_path . "?subject=Science Fiction") ?>">Science Fiction</a>
+              <a href="<?php echo($subject_path . "?subject=Historical") ?>">Historical</a>
             </ul>
           </li>
           <?php if($session->is_logged_in()) { ?>
-            <li><a class="<?php if($current_page == "bookshelf") { echo "current-page"; } ?>" href="bookshelf.php?current-page=bookshelf">My Bookshelf</a></li>
+            <li><a class="<?php if($current_page == "bookshelf") { echo "current-page"; } ?>" href="bookshelf.php">My Bookshelf</a></li>
           <?php } ?>
         </ul>
         <div>
           <?php if($session->is_logged_in()) { ?>
             <p class="username">User: <?php echo $session->username; ?></p>
-            <a href="logout.php?current-page=home" class="login">Log Out</a>
+            <a href="logout.php" class="logout"><?php echo "Log Out " . $session->username; ?></a>
           <?php } ?>      
           <?php if($session->is_admin()) { ?>
-            <a href="admins/index.php?current-page=" class="login">Backend</a>
+            <a href="admins/index.php" class="login">Backend</a>
           <?php } ?>
 
           <?php if(!$session->is_logged_in()) { ?>
-            <a href="login.php?current-page=" class="login">Log In</a>
-            <a href="signup.php?current-page=" class="login">Sign Up</a>
+            <a href="login.php" class="login">Log In</a>
+            <a href="signup.php" class="login">Sign Up</a>
           <?php } ?>
-          <form class="search-form" action="<?php echo url_for('search.php?current-page='); ?>" method="post">
+          <form class="search-form" action="<?php echo url_for('search.php'); ?>" method="post">
             <label for="search">Search:</label>
             <input type="text" id="search" name="search">
             <label for="search-type">By:</label>

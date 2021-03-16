@@ -86,7 +86,7 @@ nav div {
   grid-template-columns: 40% 30% 30%;
   grid-template-rows: auto auto;
   margin: 0 10px 0 auto;
-  max-width: 500px;
+  max-width: 600px;
   padding: 10px 0;
 }
 
@@ -104,6 +104,18 @@ nav div {
 
 .login:last-of-type {
   grid-column: 3;
+}
+
+.logout {
+  color: #fff;
+  cursor: pointer;
+  background-color: #2c1d00;
+  margin: 0 0 10px auto;
+  grid-column: 2;
+  padding: 5px 0;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
 }
 
 .search-form {
@@ -197,5 +209,30 @@ td {
   border: 2px solid #2c1d00;
   padding: 1rem 15px;
   margin: 1rem 30px;
-  width: 800px;
+  width: 500px;
+}
+
+@media screen and (max-width: 950px) {
+  nav {
+    grid-template-columns: auto;
+  }
+
+  nav ul {
+    grid-row: 2;
+    padding: 15px 0 0 0;
+    margin: 0 auto;
+  }
+
+  nav ul li:first-of-type {
+    margin-left: 0;
+  }
+
+  nav div {
+    margin: 0 auto;
+    grid-row: 1;
+  }
+
+  .logout {
+    grid-column: 3;
+  }
 }

@@ -1,5 +1,8 @@
 <?php 
   require_once('../private/initialize.php'); 
+  
+  $current_page = 'home';
+
   include(SHARED_PATH . '/public-header.php');
 
 ?>

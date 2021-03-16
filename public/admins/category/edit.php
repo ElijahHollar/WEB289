@@ -6,13 +6,13 @@ require_login();
 require_admin();
 
 if(!isset($_GET['id'])) {
-  redirect_to(url_for('admins/category/index.php?current-page=category-home'));
+  redirect_to(url_for('admins/category/index.php'));
 }
 
 $id = $_GET['id'];
 $category = Category::find_by_id($id);
 if($category == false) {
-  redirect_to(url_for('admins/category/index.php?current-page=category-home'));
+  redirect_to(url_for('admins/category/index.php'));
 }
 
 if(is_post_request()) {
@@ -23,7 +23,7 @@ if(is_post_request()) {
 
   if($result === true) {
     $session->message("The category was updated successfully.");
-    redirect_to(url_for('admins/category/index.php?current-page=category-home'));
+    redirect_to(url_for('admins/category/index.php'));
   } else {
     // show errors
   }
@@ -38,13 +38,13 @@ if(is_post_request()) {
 
 
     <main>
-      <p class="backlink"><a href="<?php echo url_for('admins/category/index.php?current-page=category-home') ?>">&laquo; Back to List</a></p>
+      <p class="backlink"><a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a></p>
 
       <h1>Edit Category</h1>
 
       <?php echo display_errors($category->errors); ?>
 
-      <form action="<?php echo url_for('admins/category/edit.php?current-page=&id=' . h(u($id))); ?>" method="post">
+      <form action="<?php echo url_for('admins/category/edit.php?id=' . h(u($id))); ?>" method="post">
 
         <label for="category_name">Category:</label>
         <input type="text" id="category_name" name="category[category_name]">

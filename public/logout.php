@@ -7,4 +7,4 @@ $session->message('Goodbye ' . $session->username . ", you have logged out.");
 
 $session->logout();
 
-redirect_to(url_for('/index.php?current-page=home'));
+redirect_to(url_for('/index.php'));

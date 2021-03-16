@@ -15,7 +15,7 @@ if(is_post_request()) {
   if($result === true) {
     $new_id = $category->id;
     $session->message("The category was added successfully.");
-    redirect_to(url_for("admins/category/index.php?current-page=category-home"));
+    redirect_to(url_for("admins/category/index.php"));
   } else {
     // show errors
   }
@@ -31,13 +31,13 @@ if(is_post_request()) {
 
 
     <main>
-      <p class="backlink"><a href="<?php echo url_for('admins/category/index.php?current-page=category-home') ?>">&laquo; Back to List</a></p>
+      <p class="backlink"><a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a></p>
       
       <h1>Edit Category</h1>
 
       <?php echo display_errors($category->errors); ?>
 
-      <form action="<?php echo url_for('admins/category/new.php?current-page='); ?>" method="post">
+      <form action="<?php echo url_for('admins/category/new.php'); ?>" method="post">
 
         <label for="category_name">Category:</label>
         <input type="text" id="category_name" name="category[category_name]">

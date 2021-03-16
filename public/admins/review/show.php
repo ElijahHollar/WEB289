@@ -16,7 +16,7 @@ include(SHARED_PATH . '/admin-header.php');
 
     <main>
 
-      <p class="backlink"><a href="<?php echo url_for('admins/review/index.php?current-page=review-home') ?>">&laquo; Back to List</a></p>
+      <p class="backlink"><a href="<?php echo url_for('admins/review/index.php') ?>">&laquo; Back to List</a></p>
       
       <h1>Review: <?php echo("#" . $review->review_id) ?></h1>
 
