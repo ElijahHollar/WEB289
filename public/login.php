@@ -13,10 +13,10 @@ if(is_post_request()) {
 
   // Validations
   if(is_blank($username)) {
-    $errors[] = "Username cannot be blank.";
+    $errors['username'] = "Username cannot be blank.";
   }
   if(is_blank($password)) {
-    $errors[] = "Password cannot be blank.";
+    $errors['password'] = "Password cannot be blank.";
   }
 
   // if there were no errors, try to login
@@ -49,18 +49,22 @@ include(SHARED_PATH . '/public-header.php');
       <h1>Log In</h1>
       <p>Please fill out the form below to log in:</p>
 
-      <?php echo display_errors($errors); ?>
+      <?php // echo display_errors($errors); ?>
 
       <form action="<?php echo url_for('login.php');?>" method="post">
 
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" value="<?php echo h($username); ?>" required>
+        <div>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" value="<?php echo h($username); ?>" required> <?php if(isset($errors['username'])) { echo($errors['username']); } ?>
+        </div>
 
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" value="" required>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" value="" required> <?php if(isset($errors['password'])) { echo($errors['password']); } ?>
+        </div>
 
         <input type="submit" value="Log In">
+        <p><a href="<?php echo(url_for('forgot.php')); ?>">Forgot Password?</a></p>
       </form>
     </main>
   </body>

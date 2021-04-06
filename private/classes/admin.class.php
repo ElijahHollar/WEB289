@@ -51,40 +51,40 @@
         $this->errors = [];
       
         if(is_blank($this->user_email_address)) {
-          $this->errors[] = "Email cannot be blank.";
+          $this->errors['email'] = "Email cannot be blank.";
         } elseif (!has_length($this->user_email_address, array('max' => 255))) {
-          $this->errors[] = "Last name must be less than 255 characters.";
+          $this->errors['email'] = "Email address must be less than 255 characters.";
         } elseif (!has_valid_email_format($this->user_email_address)) {
-          $this->errors[] = "Email must be a valid format.";
+          $this->errors['email'] = "Email must be a valid format.";
         }
       
         if(is_blank($this->user_username)) {
-          $this->errors[] = "Username cannot be blank.";
+          $this->errors['username'] = "Username cannot be blank.";
         } elseif (!has_length($this->user_username, array('min' => 8, 'max' => 255))) {
-          $this->errors[] = "Username must be between 8 and 255 characters.";
+          $this->errors['username'] = "Username must be between 8 and 255 characters.";
         } elseif (!has_unique_username($this->user_username, $this->user_id ?? 0)) {
-          $this->errors[] = "Username not allowed. Try another.";
+          $this->errors['username'] = "Username not allowed. Try another.";
         }
 
         if($this->password_required) {
             if(is_blank($this->password)) {
-            $this->errors[] = "Password cannot be blank.";
+            $this->errors['password'] = "Password cannot be blank.";
             } elseif (!has_length($this->password, array('min' => 12))) {
-            $this->errors[] = "Password must contain 12 or more characters";
+            $this->errors['password'] = "Password must contain 12 or more characters";
             } elseif (!preg_match('/[A-Z]/', $this->password)) {
-            $this->errors[] = "Password must contain at least 1 uppercase letter";
+            $this->errors['password'] = "Password must contain at least 1 uppercase letter";
             } elseif (!preg_match('/[a-z]/', $this->password)) {
-            $this->errors[] = "Password must contain at least 1 lowercase letter";
+            $this->errors['password'] = "Password must contain at least 1 lowercase letter";
             } elseif (!preg_match('/[0-9]/', $this->password)) {
-            $this->errors[] = "Password must contain at least 1 number";
+            $this->errors['password'] = "Password must contain at least 1 number";
             } elseif (!preg_match('/[^A-Za-z0-9\s]/', $this->password)) {
-            $this->errors[] = "Password must contain at least 1 symbol";
+            $this->errors['password'] = "Password must contain at least 1 symbol";
             }
         
             if(is_blank($this->confirm_password)) {
-            $this->errors[] = "Confirm password cannot be blank.";
+            $this->errors['confirm_password'] = "Confirm password cannot be blank.";
             } elseif ($this->password !== $this->confirm_password) {
-            $this->errors[] = "Password and confirm password must match.";
+            $this->errors['confirm_password'] = "Password and confirm password must match.";
             }
         }
       
@@ -94,6 +94,17 @@
     static public function find_by_username($user_username) {
       $sql = "SELECT * FROM " . static::$table_name . " ";
       $sql .= "WHERE user_username=" . self::$database->quote($user_username);
+      $object_array = static::find_by_sql($sql);
+      if(!empty($object_array)) {
+          return array_shift($object_array);
+      }   else    {
+          return false;
+      }
+    }
+
+    static public function find_by_email($user_email_address) {
+      $sql = "SELECT * FROM " . static::$table_name . " ";
+      $sql .= "WHERE user_email_address=" . self::$database->quote($user_email_address);
       $object_array = static::find_by_sql($sql);
       if(!empty($object_array)) {
           return array_shift($object_array);

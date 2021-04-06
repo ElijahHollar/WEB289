@@ -2,38 +2,55 @@
 
 require_once('../private/initialize.php');
 
+$username = $_SESSION['username'] ?? '';
+
 $errors = [];
-$username = '';
-$password = '';
-$confirmation_code = random_int(10000, 99999);
+
+$confirmation_code = '';
 
 if(is_post_request()) {
 
+  $confirmation_code = $_POST['reset-code'] ?? '';
 
-  $username = $_POST['username'] ?? '';
-  $password = $_POST['password'] ?? '';
+  $new_password = $_POST['admin[\'password\']'] ?? '';
+
+  $confirm_password = $_POST['admin[\'confirm_password\']'] ?? '';
 
   // Validations
-  if(is_blank($password)) {
-    $errors[] = "Password cannot be blank.";
+  if(is_blank($confirmation_code)) {
+    $errors['confirmation_code'] = "Please enter your reset code.";
+  } elseif($confirmation_code != $_SESSION['confirmation_code']) {
+    $errors['confirmation_code'] = "The confirmation code is incorrect.";
+  }
+  
+  if(is_blank($new_password)) {
   }
 
-  // if there were no errors, try to login
+  if($new_password != $confirm_password) {
+  }
+
+  // if there were no errors, try to reset password
   if(empty($errors)) {
     $admin = Admin::find_by_username($username);
-    // test if admin found and password is correct
-    if($admin != false && $admin->verify_password($password)) {
-      // Mark admin as logged in
-      $session->login($admin);
-      $session->message('Welcome ' . $username . ', you have successfully logged in.');
-      if ($session->user_level == 'm') {
-        redirect_to(url_for('/index.php'));
-      } else {
-        redirect_to(url_for('/admins/index.php'));
+    // test if admin is found
+    if($admin != false) {
+      // populate admin profile with new password and attempt to update
+      $args = $_POST['admin'];
+
+      $admin->merge_attributes($args);
+
+      $result = $admin->save();
+
+      if($result === true) {
+        // if update was successful log the user in, provide a message stating the change, and redirect them to the home page
+        $session->message("The password was changed successfully.");
+        $session->login($admin);
+
+        
+        redirect_to(url_for('index.php'));
       }
     } else {
-      // username not found or password does not match
-      $errors[] = "Log in was unsuccessful. Please try again.";
+      // username not found
     }
 
   }
@@ -46,16 +63,28 @@ include(SHARED_PATH . '/public-header.php');
 
     <main>
       <h1>Log In</h1>
-      <p>Please fill out the form below to log in:</p>
+      <p>Please fill out the form below to reset your password:</p>
 
-      <?php echo display_errors($errors); ?>
+      <?php // echo display_errors($errors); ?>
 
-      <form action="<?php echo url_for('login.php');?>" method="post">
+      <form action="<?php echo url_for('reset.php');?>" method="post">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" value="" required>
+        <div>
+          <label for="reset-code">Reset Code:</label>
+          <input type="text" id="reset-code" name="reset-code" value="<?php echo h($confirmation_code); ?>" required> <?php if(isset($errors['confirmation_code'])) { echo($errors['confirmation_code']); } ?>
+        </div>
 
-        <input type="submit" value="Log In">
+        <div>
+          <label for="password">New Password:</label>
+          <input type="password" id="password" name="admin[password]" value="" required> <?php if(isset($admin->errors['password'])) { echo($admin->errors['password']); } ?>
+        </div>
+
+        <div>
+          <label for="confirm-pass">Confirm New Password:</label>
+          <input type="password" id="confirm-pass" name="admin[confirm_password]" value="" required> <?php if(isset($admin->errors['confirm_password'])) { echo($admin->errors['confirm_password']); } ?>
+        </div>
+
+        <input type="submit" value="Reset Password">
       </form>
     </main>
   </body>
