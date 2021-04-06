@@ -27,7 +27,6 @@ if(!isset($current_page)) {
         </ul>
         <div>
           <?php if($session->is_logged_in()) { ?>
-            <p class="username">User: <?php echo $session->username; ?></p>
             <a href="<?php echo url_for("logout.php")?>" class="logout"><?php echo "Log Out " . $session->username; ?></a>
           <?php } ?>
 
