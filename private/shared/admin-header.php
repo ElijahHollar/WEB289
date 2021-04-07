@@ -17,7 +17,7 @@ if(!isset($current_page)) {
 
   <body>
     <header role="banner">
-      <!-- <img src="media/"> -->
+    <img src="<?php echo url_for('../media/images/bookup-logo.png'); ?>" alt="bookup site logo">
       <h1>Bookup: The Book Lookup Tool</h1>
       <nav role="navigation">
         <ul>
