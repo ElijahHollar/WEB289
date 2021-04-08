@@ -40,8 +40,6 @@ include(SHARED_PATH . '/public-header.php');
       <h1>Reset Password</h1>
       <p>Please enter your username below. We will send instructions on how to reset your password to the email address associated with your account.</p>
 
-      <?php //echo display_errors($errors); ?>
-
       <form action="<?php echo url_for('forgot.php');?>" method="post">
 
         <label for="username">Username:</label>

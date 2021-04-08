@@ -49,8 +49,6 @@ include(SHARED_PATH . '/public-header.php');
       <h1>Log In</h1>
       <p>Please fill out the form below to log in:</p>
 
-      <?php // echo display_errors($errors); ?>
-
       <form action="<?php echo url_for('login.php');?>" method="post">
 
         <div>
