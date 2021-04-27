@@ -32,9 +32,11 @@ if(is_post_request()) {
       } else {
         redirect_to(url_for('/admins/index.php'));
       }
-    } else {
+    } elseif($admin == false) {
       // username not found or password does not match
-      $errors[] = "Log in was unsuccessful. Please try again.";
+      $errors['username'] = "Username not recognized. Please try again.";
+    } else {
+      $errors['password'] = "Password is incorrect. Please try agan.";
     }
 
   }

@@ -31,8 +31,6 @@ include(SHARED_PATH . '/public-header.php');
       <h1>Sign Up</h1>
       <p>Please fill out the form below to become a member:</p>
 
-      <?php //echo display_errors($admin->errors); ?>
-
       <form action="<?php echo url_for('/signup.php'); ?>" method="post">
 
         <div>
