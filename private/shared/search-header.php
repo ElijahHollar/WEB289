@@ -51,7 +51,7 @@ if(!isset($current_page)) {
           <?php } ?>
           <form class="search-form" action="<?php echo url_for('search.php'); ?>" method="post">
             <label for="search">Search:</label>
-            <input type="text" id="search" name="search">
+            <input type="text" id="search" name="search" required>
             <label for="search-type">By:</label>
             <select id="search-type" name="search-type">
               <option value="title">Title</option>

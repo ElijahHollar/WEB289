@@ -14,6 +14,6 @@ function prepareForSearch() {
     var searchType = PARAM.value;
     console.log(searchType);
     localStorage.setItem("searchType", searchType);
-    window.location.href = "search.php";
+    window.location.href = "/WEB289/public/search.php";
   });
 }

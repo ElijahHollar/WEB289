@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <link href="<?php echo url_for('../css/style.css'); ?>" rel="stylesheet">
     <title>Bookup: Home</title>
+    <script src="<?php echo url_for('../js/redirect.js'); ?>" defer></script>
   </head>
 
   <body>
@@ -29,7 +30,7 @@
           <?php } ?>
           <form class="search-form" action="<?php echo url_for('search.php'); ?>" method="post">
             <label for="search">Search:</label>
-            <input type="text" id="search" name="search">
+            <input type="text" id="search" name="search" required>
             <label for="search-type">By:</label>
             <select id="search-type" name="search-type">
               <option value="title">Title</option>

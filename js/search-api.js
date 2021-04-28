@@ -3,9 +3,13 @@ const MAIN = document.querySelector("main");
 const SEARCH = document.querySelector("#search");
 const LIST = document.createElement("ol");
 const PARAM = document.querySelector("#search-type");
+const lastElement = document.querySelector("main h1");
 let isScrolled = false;
 let movies = [];
 let indexNum = 0;
+var searchError = false;
+var searchNumber = 0;
+
 loadSearch();
 submitSearchTerm();
 
@@ -36,8 +40,23 @@ function submitSearchTerm() {
       searchType = "isbn";
     }
     console.log(searchType);
-    let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
-    createRequest(url, searchValue, searchType, searchSuccess, searchError, 0);
+    if(searchValue !== "") {
+      searchError = false;
+      let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
+      createRequest(url, searchValue, searchType, searchSuccess, searchError, 0);
+    } else if(searchError == false) {
+      if(MAIN.lastElementChild != lastElement) {
+        movies = [];
+      
+        document.querySelector("h2:last-of-type").style.display = "none";
+      
+        LIST.textContent = "";
+      }
+      const HEADER = document.createElement("h2");
+      HEADER.innerHTML = `Please enter a search term.`;
+      MAIN.append(HEADER);
+      searchError = true;
+    }
   });
 }
 
@@ -48,7 +67,8 @@ function submitSearchTerm() {
 function loadSearch() {
   let searchValue = localStorage.getItem("searchValue");
   let searchType = localStorage.getItem("searchType");
-  if(searchValue !== null) {
+  if(searchValue !== "") {
+    console.log(searchValue);
     SEARCH.value = searchValue;
     if(localStorage.getItem("searchType") == "title") {
       searchType = "intitle";
@@ -64,6 +84,18 @@ function loadSearch() {
     console.log(searchType);
     let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
     createRequest(url, searchValue, searchType, searchSuccess, searchError, 0);
+  } else if(searchError == false) {
+    if(MAIN.lastElementChild != lastElement) {
+      movies = [];
+    
+      document.querySelector("h2:last-of-type").style.display = "none";
+    
+      LIST.textContent = "";
+    }
+    const HEADER = document.createElement("h2");
+    HEADER.innerHTML = `Please enter a search term.`;
+    MAIN.append(HEADER);
+    searchError = true;
   }
 }
 
@@ -98,10 +130,13 @@ function handleErrors(response) {
 }
 
 function searchSuccess(parsedData, searchValue, searchType, index){
-  const lastElement = document.querySelector("main h1");
   const HEADER = document.createElement("h2");
   let total = parsedData.totalItems;
   var error = false;
+
+  searchNumber++;
+
+  lastElement.innerHTML = `Total searchs: ${searchNumber}`;
 
   if(total > 0) {
     HEADER.innerHTML = `Search results for <i>${searchValue}</i>:`;
