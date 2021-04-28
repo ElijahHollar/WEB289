@@ -3,9 +3,9 @@ const MAIN = document.querySelector("main");
 const SEARCH = document.querySelector("#search");
 const LIST = document.createElement("ol");
 const PARAM = document.querySelector("#search-type");
-const lastElement = document.querySelector("main h1");
+const lastElement = document.querySelector("#modalBackground");
 let isScrolled = false;
-let movies = [];
+let books = [];
 let indexNum = 0;
 var searchError = false;
 var searchNumber = 0;
@@ -136,7 +136,7 @@ function searchSuccess(parsedData, searchValue, searchType, index){
 
   searchNumber++;
 
-  lastElement.innerHTML = `Total searchs: ${searchNumber}`;
+  // lastElement.innerHTML = `Total searchs: ${searchNumber}`;
 
   if(total > 0) {
     HEADER.innerHTML = `Search results for <i>${searchValue}</i>:`;
@@ -147,7 +147,7 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   }
   
   if(MAIN.lastElementChild != lastElement && indexNum == 0) {
-    movies = [];
+    books = [];
 
     document.querySelector("h2:last-of-type").style.display = "none";
      
@@ -166,12 +166,15 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   
   if(total > 0) {  
     for(i = 0; i < parsedData.items.length; i++) {
-      // books.push(parsedData.items[i]);
+      books.push(parsedData.items[i]);
 
-      // console.log(parsedData.items[i].volumeInfo.title);
+      // console.log(parsedData.items[i]);
+      // console.log(parsedData.items[i].volumeInfo.industryIdentifiers[0].identifier);
       
       const TITLE = document.createElement("p");
       const YEAR = document.createElement("p");
+      const DETAILS = document.createElement("p");
+      const detailsLink = document.createElement("a");
       const IMAGE = document.createElement("img");
       const listItem = document.createElement("li");
 
@@ -179,25 +182,31 @@ function searchSuccess(parsedData, searchValue, searchType, index){
       // TITLE.className = "title";
       YEAR.textContent = parsedData.items[i].volumeInfo.publishedDate;
       // YEAR.className = "year";
+      DETAILS.append(detailsLink);
+      // DETAILS.className = "details";
+      detailsLink.innerHTML = "About this book &#xbb;";
+      detailsLink.setAttribute("href", "#");
+      detailsLink.setAttribute("data-id", parsedData.items[i].volumeInfo.industryIdentifiers[0].identifier);
       
-      // let id = i;
+      let id = i;
       
-      // detailsLink.addEventListener("click", function(e) {
-      //   e.preventDefault();
-      //   modalUrl(parsedData.Search[id].imdbID);
-      // });
+      detailsLink.addEventListener("click", function(e) {
+        e.preventDefault();
+        modalUrl(parsedData.items[id].volumeInfo.industryIdentifiers[0].identifier);
+      });
       
       if(parsedData.items[i].volumeInfo.imageLinks != undefined) {
         IMAGE.setAttribute("src", parsedData.items[i].volumeInfo.imageLinks.smallThumbnail);
+        IMAGE.setAttribute("alt", `${parsedData.items[i].volumeInfo.title} book cover`);
       } else {
         IMAGE.setAttribute("src", "../media/images/noposter.gif");
+        IMAGE.setAttribute("alt", `Image replacement for missing book cover`);
       }
 
-      IMAGE.setAttribute("alt", `${parsedData.items[i].volumeInfo.title} movie poster`);
 
       listItem.append(TITLE);
       listItem.append(YEAR);
-      // listItem.append(DETAILS);
+      listItem.append(DETAILS);
       listItem.append(IMAGE);
 
       LIST.append(listItem);
@@ -248,4 +257,58 @@ function saveSearch(searchValue, searchType) {
 function searchError(response){
   console.log("Error!");
   console.log(response);
+}
+
+function modalUrl(id) {
+  let url = `https://www.googleapis.com/books/v1/volumes?q=search+isbn:${id}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
+  createRequest(url, id, "", modalSuccess, modalFail, 0);
+}
+
+function modalSuccess(parsedData) {
+  const modalBack = document.querySelector("#modalBackground");
+  const modalBox = document.querySelector("#modalBox");
+  const modalClose = document.querySelector("#close");
+  const modalImg = document.querySelector("#modalBox img");
+  const TITLE = document.querySelector("#modalBox div:first-of-type p:nth-of-type(2)");
+  const AUTHOR = document.querySelector("#modalBox div:nth-of-type(2) p:nth-of-type(2)");
+  const PUBLISHER = document.querySelector("#modalBox div:nth-of-type(3) p:nth-of-type(2)");
+  const YEAR = document.querySelector("#modalBox div:nth-of-type(4) p:nth-of-type(2)");
+  const EXCERPT = document.querySelector("#modalBox div:nth-of-type(5) p:nth-of-type(2)");
+
+  console.log(parsedData);
+
+  TITLE.textContent = parsedData.items[0].volumeInfo.title;
+  AUTHOR.textContent = parsedData.items[0].volumeInfo.authors[0];
+  PUBLISHER.textContent = parsedData.items[0].volumeInfo.publisher;
+  YEAR.textContent = parsedData.items[0].volumeInfo.publishedDate.substring(0, 4);
+  EXCERPT.textContent = parsedData.items[0].volumeInfo.description;
+  
+  modalBack.style.display = "block";
+  
+  if(parsedData.items[0].volumeInfo.imageLinks != undefined) {
+    modalImg.setAttribute("src", parsedData.items[0].volumeInfo.imageLinks.smallThumbnail);
+    modalImg.setAttribute("alt", `${parsedData.items[0].volumeInfo.title} book cover`);
+  } else {
+    modalImg.setAttribute("src", "../media/images/noposter.gif");
+    modalImg.setAttribute("alt", `Image replacement for missing book cover`);
+  }
+  
+  modalClose.addEventListener('click', () => modalBackground.style.display = 'none');
+  
+  modalBack.addEventListener('click', function (e) {
+    if(e.target.matches('#modalBackground')) {
+      modalBack.style.display = 'none';
+    }
+  });
+}
+
+function modalFail(response, id) {
+  const DETAILS = document.querySelectorAll("ol a");
+  for (i = 0; i < DETAILS.length; i++) {
+    var detailID = DETAILS[i].getAttribute("data-id");
+    if (id == detailID) {
+      DETAILS[i].textContent = "Sorry, an error has occurred.";
+      DETAILS[i].className = "error";
+    }
+  }
 }
