@@ -262,6 +262,11 @@ td {
   width: 100%;
 }
 
+#modalContainer {
+  max-height: calc(100vh);
+  overflow-y: auto;
+}
+
 #modalBox {
   background-color: #fff;
   border: 1px solid #000;
@@ -275,6 +280,22 @@ td {
   padding: 10px;
   position: relative;
   width: 80%;
+}
+
+#reviewBox {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-top: 18px solid #338e3e;
+  border-bottom: 18px solid #338e3e;
+  box-shadow: 0 0 5px #000;
+  margin: 2rem auto auto;
+  padding: 10px;
+  position: relative;
+  width: 80%;
+}
+
+#reviewWriting {
+  display: none;
 }
 
 #modalBox img {
@@ -291,7 +312,7 @@ td {
 
 #close {
   color: #a5a5a5;
-  font-size: 1.75rem;
+  font-size: 2rem;
   position: absolute;
   right: 10px;
   top: 0;
@@ -299,7 +320,7 @@ td {
 }
 
 #close:hover {
-  color: #000;
+  color: rgb(255, 0, 0);
   cursor: pointer;
   transform: rotate(90deg);
 }
@@ -308,4 +329,22 @@ td {
   font-weight: bold;
   font-size: 20px;
   padding-top: 10px;
+}
+
+textarea {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.review {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows:  auto auto;
+}
+
+.review p:nth-of-type(3) {
+  grid-column: span 2;
 }

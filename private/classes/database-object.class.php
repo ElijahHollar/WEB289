@@ -136,6 +136,7 @@ class DatabaseObject {
     foreach($this->attributes() as $key => $value) {
         $sanitized[$key] = self::$database->quote($value);
     }
+    var_dump($this->attributes());
     return $sanitized;
   }
 

@@ -9,6 +9,7 @@ let books = [];
 let indexNum = 0;
 var searchError = false;
 var searchNumber = 0;
+let modalReview = false;
 
 loadSearch();
 submitSearchTerm();
@@ -274,14 +275,45 @@ function modalSuccess(parsedData) {
   const PUBLISHER = document.querySelector("#modalBox div:nth-of-type(3) p:nth-of-type(2)");
   const YEAR = document.querySelector("#modalBox div:nth-of-type(4) p:nth-of-type(2)");
   const EXCERPT = document.querySelector("#modalBox div:nth-of-type(5) p:nth-of-type(2)");
-
-  console.log(parsedData);
-
+  const REVIEWS = document.querySelector("#reviewViewing");
+  const WRITING = document.querySelector("#reviewWriting");
+  const reviewBox = document.querySelector("#reviewBox");
+  let bookData = parsedData;
+  
+  REVIEWS.style.display = "block";
+  WRITING.style.display = 'none';
+  
+  fetch(`review-fetch.php?isbn=${parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier}`)
+    .then(responseFromServer => responseFromServer.text())
+    .then(goodData => document.getElementById("reviews").innerHTML = goodData)
+    .catch(thereWasAnError => console.log(thereWasAnError));
+        
+  if(document.querySelector("#review-button") != null) {
+    const writeButton = document.querySelector("#review-button");
+    const reviewHeading = document.querySelector("#reviewWriting > p");
+    const reviewISBN = document.querySelector("#review_isbn");
+    let book = parsedData.items[0].volumeInfo.title;
+    
+    reviewHeading.className = "bold";
+    reviewHeading.textContent = `Reviewing ${book}`;
+    reviewISBN.value = parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier;
+    
+    if(modalReview == false) {
+      writeButton.addEventListener('click', modalReviewing);
+    }
+  }
+  
+  
+  // console.log(parsedData);
+  const reviewBook = document.querySelector("#reviewViewing p:first-of-type");
+  
   TITLE.textContent = parsedData.items[0].volumeInfo.title;
   AUTHOR.textContent = parsedData.items[0].volumeInfo.authors[0];
   PUBLISHER.textContent = parsedData.items[0].volumeInfo.publisher;
   YEAR.textContent = parsedData.items[0].volumeInfo.publishedDate.substring(0, 4);
   EXCERPT.textContent = parsedData.items[0].volumeInfo.description;
+  
+  reviewBook.textContent = `Reviews for ${parsedData.items[0].volumeInfo.title}`;
   
   modalBack.style.display = "block";
   
@@ -293,13 +325,62 @@ function modalSuccess(parsedData) {
     modalImg.setAttribute("alt", `Image replacement for missing book cover`);
   }
   
-  modalClose.addEventListener('click', () => modalBackground.style.display = 'none');
+  modalClose.addEventListener('click', function(){
+    modalBackground.style.display = 'none';
+  });
   
   modalBack.addEventListener('click', function (e) {
     if(e.target.matches('#modalBackground')) {
       modalBack.style.display = 'none';
     }
   });
+}
+
+function modalReviewing(e) {
+  e.preventDefault();
+  
+  console.log("Default Prevented");
+  
+  const REVIEWS = document.querySelector("#reviewViewing");
+  REVIEWS.style.display = 'none';
+
+  const WRITING = document.querySelector("#reviewWriting");
+  WRITING.style.display = 'block';
+  modalReview = true;
+  
+  // event.preventDefault();
+  // const writeButton = document.querySelector("#review-button");
+  // console.log("Im still working!");
+  
+  // if(modalReview == true) {
+    //   modalReview = false;
+    //   console.log(parsedData.items[0].volumeInfo.title);
+    
+    // const reviewHeading = document.createElement("p");
+    // const reviewForm = document.createElement("form");
+    // const reviewFormLabel = document.createElement("label");
+    // const reviewFormInput = document.createElement("textarea");
+    // const reviewFormSubmit = document.createElement("input");
+    
+    // reviewForm.setAttribute("action", "/WEB289/public/search.php");
+    // reviewForm.setAttribute("method", "post");
+    // reviewFormLabel.setAttribute("for", "review-input");
+    // reviewFormLabel.textContent = "Review Text:";
+    // reviewFormInput.setAttribute("rows", "25");
+    // reviewFormInput.setAttribute("cols", "80");
+    // reviewFormInput.setAttribute("maxlength", "2500");
+    // reviewFormInput.setAttribute("id", "review-input");
+    // reviewFormInput.setAttribute("name", "review-input");
+    // reviewFormSubmit.setAttribute("type", "submit");
+    // reviewFormSubmit.setAttribute("id", "submit-review");
+    // reviewFormSubmit.setAttribute("value", "Submit Review");
+  
+    // reviewBox.append(reviewHeading);
+    // reviewBox.append(reviewForm);
+    // reviewForm.append(reviewFormLabel);
+    // reviewForm.append(reviewFormInput);
+    // reviewForm.append(reviewFormSubmit);
+  // }
 }
 
 function modalFail(response, id) {
@@ -311,4 +392,21 @@ function modalFail(response, id) {
       DETAILS[i].className = "error";
     }
   }
+  console.log(response);
+}
+
+function showCustomer(str) {
+  var xhttp;
+  if (str == "") {
+    document.getElementById("txtHint").innerHTML = "";
+    return;
+  }
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("txtHint").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "getcustomer.php?q="+str, true);
+  xhttp.send();
 }
