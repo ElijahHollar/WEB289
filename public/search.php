@@ -56,7 +56,7 @@
       <div id="modalBackground">
         <div id="modalContainer">
           <div id="modalBox">
-            <img alt="modal box image">
+            <img alt="modal box image placeholder text">
             <span id="close">&times;</span>
             <div>
               <h3 class="bold">Title</h3>

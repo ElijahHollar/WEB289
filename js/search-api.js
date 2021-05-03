@@ -179,7 +179,7 @@ function searchSuccess(parsedData, searchValue, searchType, index){
       // console.log(parsedData.items[i].volumeInfo.industryIdentifiers[0].identifier);
       
       const TITLE = document.createElement("p");
-      const YEAR = document.createElement("p");
+      // const YEAR = document.createElement("p");
       const DETAILS = document.createElement("p");
       const detailsLink = document.createElement("a");
       const IMAGE = document.createElement("img");
@@ -187,7 +187,7 @@ function searchSuccess(parsedData, searchValue, searchType, index){
 
       TITLE.textContent = parsedData.items[i].volumeInfo.title;
       // TITLE.className = "title";
-      YEAR.textContent = parsedData.items[i].volumeInfo.publishedDate;
+      // YEAR.textContent = parsedData.items[i].volumeInfo.publishedDate;
       // YEAR.className = "year";
       DETAILS.append(detailsLink);
       // DETAILS.className = "details";
@@ -208,10 +208,11 @@ function searchSuccess(parsedData, searchValue, searchType, index){
       } else {
         IMAGE.setAttribute("src", "../media/images/image-not-found.png");
         IMAGE.setAttribute("alt", `Image replacement for missing book cover`);
+        IMAGE.className = "replacement-image";
       }
 
       listItem.append(TITLE);
-      listItem.append(YEAR);
+      // listItem.append(YEAR);
       listItem.append(DETAILS);
       listItem.append(IMAGE);
 

@@ -29,7 +29,7 @@
   } else {
     // $bookshelf = new Bookshelf;
   }
-  
+
   include(SHARED_PATH . '/bookshelf-header.php');
 ?>
     <main>

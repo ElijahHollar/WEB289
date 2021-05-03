@@ -27,7 +27,7 @@ function createRequest(url, searchValue, searchType, onSuccess, onError, indexNu
 
 function searchSuccess(parsedData) {
       const TITLE = document.createElement("p");
-      const YEAR = document.createElement("p");
+      // const YEAR = document.createElement("p");
       const DETAILS = document.createElement("p");
       const detailsLink = document.createElement("a");
       const IMAGE = document.createElement("img");
@@ -35,7 +35,7 @@ function searchSuccess(parsedData) {
 
       TITLE.textContent = parsedData.items[0].volumeInfo.title;
       // TITLE.className = "title";
-      YEAR.textContent = parsedData.items[0].volumeInfo.publishedDate;
+      // YEAR.textContent = parsedData.items[0].volumeInfo.publishedDate;
       // YEAR.className = "year";
       DETAILS.append(detailsLink);
       // DETAILS.className = "details";
@@ -57,7 +57,7 @@ function searchSuccess(parsedData) {
       }
 
       listItem.append(TITLE);
-      listItem.append(YEAR);
+      // listItem.append(YEAR);
       listItem.append(DETAILS);
       listItem.append(IMAGE);
 

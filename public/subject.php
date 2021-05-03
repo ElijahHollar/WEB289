@@ -2,11 +2,12 @@
   require_once('../private/initialize.php'); 
   
   $current_page = 'subject';
-
-  include(SHARED_PATH . '/public-header.php');
   
   $subject_type = h($_GET['subject']) ?? 'Fantasy';
-
+  
+  $page_title = "Bookup: " . $subject_type . " Subject";
+  
+  include(SHARED_PATH . '/public-header.php');
 ?>
     <main>
       <h1><?php echo $subject_type ?></h1>

@@ -5,6 +5,9 @@ require_once("../../../private/initialize.php");
 require_login();
 require_admin();
 
+
+$page_title = 'Bookup Admin: Add Category';
+
 if(is_post_request()) {
   $recaptcha = $_POST['g-recaptcha-response'];
   $res = reCaptcha($recaptcha);
@@ -44,7 +47,7 @@ $captcha_page = true;
     <main>
       <p class="backlink"><a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a></p>
       
-      <h1>Edit Category</h1>
+      <h1>Create Category</h1>
 
       <form action="<?php echo url_for('admins/category/new.php'); ?>" method="post">
 

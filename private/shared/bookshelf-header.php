@@ -13,7 +13,7 @@ if(!isset($current_page)) {
   <head>
     <meta charset="utf-8">
     <link href="../css/style.css" rel="stylesheet">
-    <title>Bookup: Home</title>
+    <title>Bookup: My Bookshelf</title>
     <script src="../js/redirect.js" defer></script>
     <script src="../js/bookshelf.js" defer></script>
   </head>

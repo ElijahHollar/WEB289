@@ -4,6 +4,10 @@ if(!isset($current_page)) {
   $current_page = '';
 }
 
+if(!isset($page_title)) {
+  $page_title = 'Bookup Admin: Home';
+}
+
 ?>
 
 
@@ -12,7 +16,7 @@ if(!isset($current_page)) {
   <head>
     <meta charset="utf-8">
     <link href="<?php echo url_for('../css/style.css'); ?>" rel="stylesheet">
-    <title>Bookup: Home</title>
+    <title><?php echo($page_title); ?></title>
     <script src="<?php echo url_for('../js/redirect.js'); ?>" defer></script>
     <?php if($captcha_page == true) { ?>
       <script src="https://www.google.com/recaptcha/api.js"></script>

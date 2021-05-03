@@ -5,6 +5,7 @@ require_once('../private/initialize.php');
 $errors = [];
 $username = '';
 $password = '';
+$page_title = "Bookup: Login";
 
 if(is_post_request()) {
 

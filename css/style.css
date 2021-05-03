@@ -184,7 +184,8 @@ table td {
   border: 2px solid #2c1d00;
 }
 
-th {
+th,
+table tr:first-of-type td {
   background-color: #424242;
   color: #fff;
   padding: 5px;
@@ -221,8 +222,8 @@ td {
 #message {
   border: 2px solid #2c1d00;
   color: #0b61a5;
-  margin: 1rem 30px;
-  max-width: 500px;
+  margin: 1rem 5px;
+  max-width: 400px;
   padding: 1rem 15px;
   width: 100%;
 }
@@ -235,7 +236,7 @@ td {
   nav ul {
     grid-row: 2;
     margin: 0 auto;
-    padding: 15px 0 0 0;
+    padding: 5px 0 0 0;
   }
   
   nav ul li:first-of-type {
@@ -248,7 +249,13 @@ td {
   }
   
   .logout {
-    grid-column: 3;
+    grid-column: span 2;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  header a {
+    padding: 15px 5px;
   }
 }
 
@@ -311,7 +318,7 @@ td {
 }
 
 #close {
-  color: #a5a5a5;
+  color: #000;
   font-size: 2rem;
   position: absolute;
   right: 10px;
@@ -347,4 +354,8 @@ textarea {
 
 .review p:nth-of-type(3) {
   grid-column: span 2;
+}
+
+.replacement-image {
+  max-width: 200px;
 }

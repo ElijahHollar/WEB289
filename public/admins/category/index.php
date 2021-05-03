@@ -4,6 +4,8 @@
   require_login();
   require_admin();
 
+  $page_title = 'Bookup Admin: Category Home';
+
   $categories = Category::find_all();
 
   $current_page = 'category-home';
@@ -19,8 +21,8 @@
         <tr>
           <th>ID</th>
           <th>Category Name</th>
-          <th></th>
-          <th></th>
+          <td></td>
+          <td></td>
         </tr>
 
         <?php foreach($categories as $category) { ?>

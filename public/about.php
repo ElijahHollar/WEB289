@@ -3,6 +3,8 @@
 
   $current_page = 'about';
 
+  $page_title = "Bookup: About";
+
   include(SHARED_PATH . '/public-header.php');
 ?>
     <main>

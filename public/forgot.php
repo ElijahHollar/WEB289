@@ -5,6 +5,8 @@ require_once('../private/initialize.php');
 $errors = [];
 $username = '';
 
+$page_title = "Bookup: Forgot Password";
+
 if(is_post_request()) {
 
   $username = $_POST['username'] ?? '';

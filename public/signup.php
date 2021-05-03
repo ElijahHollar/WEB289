@@ -2,6 +2,8 @@
 
 require_once('../private/initialize.php');
 
+$page_title = "Bookup: Signup";
+
 if(is_post_request()) {
 
   // Create record using post parameters

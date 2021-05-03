@@ -10,6 +10,8 @@ $id = $_GET['id'] ?? '1'; // PHP > 7.0
 $review = Review::find_by_id($id);
 $admin = Admin::find_by_id($review->user_id);
 
+$page_title = 'Bookup Admin: View Review #' . $review->review_id;
+
 include(SHARED_PATH . '/admin-header.php');
 
 ?>

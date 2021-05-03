@@ -8,6 +8,8 @@ require_once('../private/initialize.php');
 
   $confirmation_code = '';
 
+  $page_title = "Bookup: Reset Password";
+
   if(is_post_request()) {
 
     $confirmation_code = $_POST['reset-code'] ?? '';
@@ -25,6 +27,12 @@ require_once('../private/initialize.php');
       $errors['confirmation_code'] = "Please enter your reset code.";
     } elseif($confirmation_code != $_SESSION['confirmation_code']) {
       $errors['confirmation_code'] = "The confirmation code is incorrect.";
+    }
+    
+    if(is_blank($new_password)) {
+    }
+
+    if($new_password != $confirm_password) {
     }
 
     // if there were no errors, try to reset password

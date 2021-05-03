@@ -13,7 +13,7 @@ if(!isset($current_page)) {
   <head>
     <meta charset="utf-8">
     <link href="../css/style.css" rel="stylesheet">
-    <title>Bookup: Home</title>
+    <title>Bookup: Search Results</title>
     <script src="../js/search-api.js" defer></script>
   </head>
 

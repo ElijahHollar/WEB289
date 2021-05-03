@@ -9,6 +9,8 @@
   
   $current_page = 'review-home';
 
+  $page_title = 'Bookup Admin: Review Home';
+
   include(SHARED_PATH . "/admin-header.php");
 
 ?>
@@ -20,8 +22,8 @@
           <th>Review ISBN</th>
           <th>Review Text</th>
           <th>Review Date</th>
-          <th></th>
-          <th></th>
+          <td></td>
+          <td></td>
         </tr>
 
         <?php foreach($reviews as $review) { ?>

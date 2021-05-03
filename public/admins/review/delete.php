@@ -13,6 +13,8 @@ $id = $_GET['id'];
 
 $review = Review::find_by_id($id);
 
+$page_title = 'Bookup Admin: Delete Review #' . $review->review_id;
+
 if($review == false) {
   redirect_to(url_for('/admins/review/index.php'));
 }

@@ -10,10 +10,14 @@ if(!isset($_GET['id'])) {
 }
 
 $id = $_GET['id'];
+
 $category = Category::find_by_id($id);
+
 if($category == false) {
   redirect_to(url_for('admins/category/index.php'));
 }
+
+$page_title = 'Bookup Admin: Edit Category ' . $category->category_name;
 
 if(is_post_request()) {
   $recaptcha = $_POST['g-recaptcha-response'];
@@ -48,7 +52,7 @@ $captcha_page = true;
     <main>
       <p class="backlink"><a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a></p>
 
-      <h1>Edit Category</h1>
+      <h1>Edit Category: <?php echo($category->category_name); ?></h1>
 
       <form action="<?php echo url_for('admins/category/edit.php?id=' . h(u($id))); ?>" method="post">
 
@@ -58,7 +62,7 @@ $captcha_page = true;
         <div>
           <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
         </div>
-        
+
         <input type="submit" value="Update Category">
       </form>
 
