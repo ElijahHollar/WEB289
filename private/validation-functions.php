@@ -108,3 +108,14 @@
       return false;
     }
   }
+
+  function already_in_bookshelf($isbn, $current_id="0") {
+    $book = Bookshelf::get_book_by_isbn($isbn);
+    if($book === false || $book->bookshelf_item_id == $current_id) {
+      // is unique
+      return true;
+    } else {
+      // not unique
+      return false;
+    }
+  }

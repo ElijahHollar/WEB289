@@ -29,6 +29,7 @@
   include("classes/admin.class.php");
   include("classes/category.class.php");
   include("classes/review.class.php");
+  include("classes/bookshelf.class.php");
 
   $database = db_connect();
   DatabaseObject::set_database($database);

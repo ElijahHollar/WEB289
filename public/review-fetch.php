@@ -4,7 +4,7 @@ require_once("../private/initialize.php");
 
 $book_isbn = $_GET['isbn'] ?? '';
 
-$reviews = Review::find_by_isbn($book_isbn);
+$reviews = Review::get_reviews($book_isbn);
 
 if($reviews != false) {
   foreach($reviews as $review) {
@@ -12,7 +12,7 @@ if($reviews != false) {
   
     echo("<div class=\"review\">");
     echo("<p>" . $username->user_username . "</p>");
-    echo("<p>Posted On:" . $review->review_date . "</p>");
+    echo("<p>Posted On: " . $review->review_date . "</p>");
     echo("<p>" . $review->review_text . "</p>");
     echo("</div>");
   }

@@ -19,7 +19,7 @@
       $this->review_date = $args['review_date'] ?? '';
     }
 
-    static public function find_by_isbn($book_isbn) {
+    static public function get_reviews($book_isbn) {
       $sql = "SELECT * FROM " . static::$table_name . " ";
       $sql .= "WHERE review_isbn=" . $book_isbn;
       $object_array = static::find_by_sql($sql);

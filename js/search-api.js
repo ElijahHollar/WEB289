@@ -55,7 +55,7 @@ function submitSearchTerm() {
       }
       const HEADER = document.createElement("h2");
       HEADER.innerHTML = `Please enter a search term.`;
-      MAIN.append(HEADER);
+      MAIN.prepend(HEADER);
       searchError = true;
     }
   });
@@ -95,7 +95,7 @@ function loadSearch() {
     }
     const HEADER = document.createElement("h2");
     HEADER.innerHTML = `Please enter a search term.`;
-    MAIN.append(HEADER);
+    MAIN.prepend(HEADER);
     searchError = true;
   }
 }
@@ -136,6 +136,8 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   var error = false;
 
   searchNumber++;
+  
+  console.log(parsedData);
 
   // lastElement.innerHTML = `Total searchs: ${searchNumber}`;
 
@@ -144,7 +146,7 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   } else if (indexNum == 0) {
     error = true;
     LIST.textContent = "";
-    HEADER.innerHTML = `Sorry. No movies found with <i>${searchValue}</i>`;
+    HEADER.innerHTML = `Sorry. No books found with <i>${searchValue}</i>`;
   }
   
   if(MAIN.lastElementChild != lastElement && indexNum == 0) {
@@ -152,14 +154,14 @@ function searchSuccess(parsedData, searchValue, searchType, index){
 
     document.querySelector("h2:last-of-type").style.display = "none";
      
-    MAIN.append(HEADER);
+    MAIN.prepend(HEADER);
 
     if(total > 0) {
       LIST.textContent = "";
       MAIN.append(LIST);
     }
   } else if(indexNum == 0) {
-    MAIN.append(HEADER);
+    MAIN.prepend(HEADER);
     if(total > 0) {
       MAIN.append(LIST);
     }
@@ -200,10 +202,9 @@ function searchSuccess(parsedData, searchValue, searchType, index){
         IMAGE.setAttribute("src", parsedData.items[i].volumeInfo.imageLinks.smallThumbnail);
         IMAGE.setAttribute("alt", `${parsedData.items[i].volumeInfo.title} book cover`);
       } else {
-        IMAGE.setAttribute("src", "../media/images/noposter.gif");
+        IMAGE.setAttribute("src", "../media/images/image-not-found.png");
         IMAGE.setAttribute("alt", `Image replacement for missing book cover`);
       }
-
 
       listItem.append(TITLE);
       listItem.append(YEAR);
@@ -265,64 +266,114 @@ function modalUrl(id) {
   createRequest(url, id, "", modalSuccess, modalFail, 0);
 }
 
-function modalSuccess(parsedData) {
+function getISBN10(isbn){
+  return isbn.type === "ISBN_10"; 
+}
+
+function modalSuccess(parsedData, id) {
   const modalBack = document.querySelector("#modalBackground");
   const modalBox = document.querySelector("#modalBox");
   const modalClose = document.querySelector("#close");
   const modalImg = document.querySelector("#modalBox img");
-  const TITLE = document.querySelector("#modalBox div:first-of-type p:nth-of-type(2)");
-  const AUTHOR = document.querySelector("#modalBox div:nth-of-type(2) p:nth-of-type(2)");
-  const PUBLISHER = document.querySelector("#modalBox div:nth-of-type(3) p:nth-of-type(2)");
-  const YEAR = document.querySelector("#modalBox div:nth-of-type(4) p:nth-of-type(2)");
-  const EXCERPT = document.querySelector("#modalBox div:nth-of-type(5) p:nth-of-type(2)");
+  const TITLE = document.querySelector("#modalBox div:first-of-type p");
+  const AUTHOR = document.querySelector("#modalBox div:nth-of-type(2) p");
+  const PUBLISHER = document.querySelector("#modalBox div:nth-of-type(3) p");
+  const YEAR = document.querySelector("#modalBox div:nth-of-type(4) p");
+  const EXCERPT = document.querySelector("#modalBox div:nth-of-type(5) p");
   const REVIEWS = document.querySelector("#reviewViewing");
   const WRITING = document.querySelector("#reviewWriting");
   const reviewBox = document.querySelector("#reviewBox");
   let bookData = parsedData;
-  
-  REVIEWS.style.display = "block";
-  WRITING.style.display = 'none';
-  
-  fetch(`review-fetch.php?isbn=${parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier}`)
-    .then(responseFromServer => responseFromServer.text())
-    .then(goodData => document.getElementById("reviews").innerHTML = goodData)
-    .catch(thereWasAnError => console.log(thereWasAnError));
-        
-  if(document.querySelector("#review-button") != null) {
-    const writeButton = document.querySelector("#review-button");
-    const reviewHeading = document.querySelector("#reviewWriting > p");
-    const reviewISBN = document.querySelector("#review_isbn");
-    let book = parsedData.items[0].volumeInfo.title;
+
+  console.log(parsedData);
+
+  if(parsedData.items != undefined) {
+
+    let bookIS = parsedData.items[0].volumeInfo.industryIdentifiers.find(getISBN10);
     
-    reviewHeading.className = "bold";
-    reviewHeading.textContent = `Reviewing ${book}`;
-    reviewISBN.value = parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier;
+    console.log(bookIS.identifier);
+  
+    REVIEWS.style.display = "block";
+    WRITING.style.display = 'none';
     
-    if(modalReview == false) {
-      writeButton.addEventListener('click', modalReviewing);
+    if(document.querySelector("#review-button") != null) {
+      bookISBN = parsedData.items[0].volumeInfo.industryIdentifiers.find(getISBN10);
+  
+      bookshelfForm = document.querySelector("#modalBox > form");
+      bookshelfISBN = document.querySelector("#modalBox form input:first-of-type");
+      bookshelfSubmit = document.querySelector("#modalBox form input:nth-of-type(2)");
+      
+      bookshelfISBN.value = bookISBN.identifier;
+      
+      const writeButton = document.querySelector("#review-button");
+      const reviewHeading = document.querySelector("#reviewWriting > h3");
+      const reviewISBN = document.querySelector("#review_isbn");
+      let book = parsedData.items[0].volumeInfo.title;
+  
+      writeButton.before(bookshelfForm);
+      
+      reviewHeading.className = "bold";
+      reviewHeading.textContent = `Reviewing ${book}`;
+      reviewISBN.value = parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier;
+      
+      if(modalReview == false) {
+        writeButton.addEventListener('click', modalReviewing);
+      }
     }
-  }
-  
-  
-  // console.log(parsedData);
-  const reviewBook = document.querySelector("#reviewViewing p:first-of-type");
-  
-  TITLE.textContent = parsedData.items[0].volumeInfo.title;
-  AUTHOR.textContent = parsedData.items[0].volumeInfo.authors[0];
-  PUBLISHER.textContent = parsedData.items[0].volumeInfo.publisher;
-  YEAR.textContent = parsedData.items[0].volumeInfo.publishedDate.substring(0, 4);
-  EXCERPT.textContent = parsedData.items[0].volumeInfo.description;
-  
-  reviewBook.textContent = `Reviews for ${parsedData.items[0].volumeInfo.title}`;
-  
-  modalBack.style.display = "block";
-  
-  if(parsedData.items[0].volumeInfo.imageLinks != undefined) {
-    modalImg.setAttribute("src", parsedData.items[0].volumeInfo.imageLinks.smallThumbnail);
-    modalImg.setAttribute("alt", `${parsedData.items[0].volumeInfo.title} book cover`);
+    
+    fetch(`review-fetch.php?isbn=${parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier}`)
+      .then(responseFromServer => responseFromServer.text())
+      .then(goodData => document.getElementById("reviews").innerHTML = goodData)
+      .catch(thereWasAnError => console.log(thereWasAnError));
+    
+    // console.log(parsedData);
+    const reviewBook = document.querySelector("#reviewViewing h3");
+    
+    if(parsedData.items[0].volumeInfo.title != undefined) {
+      TITLE.textContent = parsedData.items[0].volumeInfo.title;
+    }
+    if(parsedData.items[0].volumeInfo.authors != undefined) {
+      for(i = 0; i < parsedData.items[0].volumeInfo.authors.length; i++) {
+        AUTHOR.textContent = parsedData.items[0].volumeInfo.authors[0];
+        if(i > 0) {
+          var br = document.createElement("br");
+          AUTHOR.appendChild(br);
+          var writer = document.createElement("p");
+          writer.textContent = parsedData.items[0].volumeInfo.authors[i];
+          AUTHOR.appendChild(writer);
+        }
+      }
+    }
+    if(parsedData.items[0].volumeInfo.publisher != undefined) {
+      PUBLISHER.textContent = parsedData.items[0].volumeInfo.publisher;
+    }
+    if(parsedData.items[0].volumeInfo.publishedDate != undefined) {
+      YEAR.textContent = parsedData.items[0].volumeInfo.publishedDate.substring(0, 4);
+    }
+    if(parsedData.items[0].volumeInfo.description != undefined) {
+      EXCERPT.textContent = parsedData.items[0].volumeInfo.description;
+    }
+    
+    reviewBook.textContent = `Reviews for ${parsedData.items[0].volumeInfo.title}`;
+    
+    modalBack.style.display = "block";
+    
+    if(parsedData.items[0].volumeInfo.imageLinks != undefined) {
+      modalImg.setAttribute("src", parsedData.items[0].volumeInfo.imageLinks.smallThumbnail);
+      modalImg.setAttribute("alt", `${parsedData.items[0].volumeInfo.title} book cover`);
+    } else {
+      modalImg.setAttribute("src", "../media/images/image-not-found.png");
+      modalImg.setAttribute("alt", `Image replacement for missing book cover`);
+    }
   } else {
-    modalImg.setAttribute("src", "../media/images/noposter.gif");
-    modalImg.setAttribute("alt", `Image replacement for missing book cover`);
+    const DETAILS = document.querySelectorAll("ol a");
+    for (i = 0; i < DETAILS.length; i++) {
+      var detailID = DETAILS[i].getAttribute("data-id");
+      if (id == detailID) {
+        DETAILS[i].textContent = "Sorry, no information on this book is available.";
+        DETAILS[i].className = "error";
+      }
+    }
   }
   
   modalClose.addEventListener('click', function(){
@@ -381,6 +432,13 @@ function modalReviewing(e) {
     // reviewForm.append(reviewFormInput);
     // reviewForm.append(reviewFormSubmit);
   // }
+}
+
+function bookshelfAdd(parsedData) {
+  console.log(parsedData);
+  // fetch(`bookshelf-add.php?isbn=${parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier}`)
+  //   .then(responseFromServer => responseFromServer.text())
+  //   .catch(thereWasAnError => console.log(thereWasAnError));
 }
 
 function modalFail(response, id) {
