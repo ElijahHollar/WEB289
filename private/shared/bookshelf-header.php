@@ -29,9 +29,9 @@ if(!isset($current_page)) {
           <li class="dropdown">
             <a class="dropbtn <?php if($current_page == "subject") { echo "current-page"; } ?>">Subjects</a>
             <ul class="dropdown-content">
-              <a href="<?php echo($subject_path . "?subject=Fantasy") ?>">Fantasy</a>
-              <a href="<?php echo($subject_path . "?subject=Science Fiction") ?>">Science Fiction</a>
-              <a href="<?php echo($subject_path . "?subject=Historical") ?>">Historical</a>
+              <li><a href="<?php echo($subject_path . "?subject=Fantasy") ?>">Fantasy</a></li>
+              <li><a href="<?php echo($subject_path . "?subject=Science%20Fiction") ?>">Science Fiction</a></li>
+              <li><a href="<?php echo($subject_path . "?subject=Historical") ?>">Historical</a></li>
             </ul>
           </li>
           <?php if($session->is_logged_in()) { ?>

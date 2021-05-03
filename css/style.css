@@ -82,9 +82,14 @@ header a:hover {
   position: absolute;
 }
 
+.dropdown-content li {
+  display: block;
+  position: relative;
+  right: 15px;
+}
+
 .dropdown-content a {
   background-color: #575f55;
-  display: block;
 }
 
 .dropdown:hover .dropdown-content {

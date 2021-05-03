@@ -56,7 +56,7 @@
       <div id="modalBackground">
         <div id="modalContainer">
           <div id="modalBox">
-            <img alt="modal box image placeholder text">
+            <img alt="modal box image placeholder" src="<?php echo url_for('../media/images/image-not-found.png'); ?>">
             <span id="close">&times;</span>
             <div>
               <h3 class="bold">Title</h3>
