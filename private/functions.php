@@ -26,5 +26,5 @@ function u($string="") {
 }
 
 function h($string="") {
-  return htmlspecialchars($string);
+  return strip_tags($string);
 }

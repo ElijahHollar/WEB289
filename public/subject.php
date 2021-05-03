@@ -5,7 +5,7 @@
 
   include(SHARED_PATH . '/public-header.php');
   
-  $subject_type = $_GET['subject'] ?? 'Fantasy';
+  $subject_type = h($_GET['subject']) ?? 'Fantasy';
 
 ?>
     <main>

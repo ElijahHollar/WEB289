@@ -9,6 +9,7 @@
       
       $args = $_POST['review'];
 
+      $args['review_text'] = h($args['review_text']);
       $args['user_id'] = $_SESSION['admin_id'];
       $args['review_date'] = date("Y-m-d h:i:s");
 

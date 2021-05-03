@@ -16,6 +16,8 @@ if(is_post_request()) {
 
   if(empty($errors)) {
     $args = $_POST['category'];
+
+    $args['category_name'] = h($args['category_name']);
   
     $category = new Category($args);
     $result = $category->save();

@@ -5,6 +5,31 @@
   
   $current_page = 'bookshelf';
 
+  if(is_post_request()) {
+
+    if(isset($_POST['review']) == true) {
+      
+      $args = $_POST['review'];
+
+      $args['review_text'] = h($args['review_text']);
+      $args['user_id'] = $_SESSION['admin_id'];
+      $args['review_date'] = date("Y-m-d h:i:s");
+
+      $review = new Review($args);
+      $result = $review->save();
+
+      if($result === true) {
+        
+        $new_id = $review->review_id;
+        $session->message("Your review was successfully posted.");
+      } else {
+        // show errors
+      }
+    }
+  } else {
+    // $bookshelf = new Bookshelf;
+  }
+  
   include(SHARED_PATH . '/bookshelf-header.php');
 ?>
     <main>
@@ -48,7 +73,7 @@
             </div>
             <div id="reviewWriting">
               <h3 class="bold">Review Writing Header</h3>
-              <form action="/WEB289/public/search.php" method="post">
+              <form action="/WEB289/public/bookshelf.php" method="post">
                 <label class="hidden" for="review_isbn">Review ISBN</label>
                 <input class="hidden" type="text" id="review_isbn" name="review[review_isbn]">
                 <label for="review_text">Review Text:</label>

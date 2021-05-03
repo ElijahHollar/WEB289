@@ -26,7 +26,10 @@ function submitSearchTerm() {
     e.preventDefault();
     console.log("Click!");
     indexNum = 0;
-    var searchValue = SEARCH.value;
+    var rawValue = SEARCH.value;
+    var searchValue = rawValue.replace( /(<([^>]+)>)/ig, '');
+
+    // var searchValue = rawValue.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var paramValue = PARAM.value;
     var searchType = "";
     if(paramValue == "title") {
@@ -55,7 +58,7 @@ function submitSearchTerm() {
       }
       const HEADER = document.createElement("h2");
       HEADER.innerHTML = `Please enter a search term.`;
-      MAIN.prepend(HEADER);
+      MAIN.append(HEADER);
       searchError = true;
     }
   });
@@ -66,7 +69,8 @@ function submitSearchTerm() {
  * 
  */
 function loadSearch() {
-  let searchValue = localStorage.getItem("searchValue");
+  let rawValue = localStorage.getItem("searchValue");
+  var searchValue = rawValue.replace( /(<([^>]+)>)/ig, '');
   let searchType = localStorage.getItem("searchType");
   if(searchValue !== "") {
     console.log(searchValue);
@@ -95,7 +99,7 @@ function loadSearch() {
     }
     const HEADER = document.createElement("h2");
     HEADER.innerHTML = `Please enter a search term.`;
-    MAIN.prepend(HEADER);
+    MAIN.append(HEADER);
     searchError = true;
   }
 }
@@ -154,14 +158,14 @@ function searchSuccess(parsedData, searchValue, searchType, index){
 
     document.querySelector("h2:last-of-type").style.display = "none";
      
-    MAIN.prepend(HEADER);
+    MAIN.append(HEADER);
 
     if(total > 0) {
       LIST.textContent = "";
       MAIN.append(LIST);
     }
   } else if(indexNum == 0) {
-    MAIN.prepend(HEADER);
+    MAIN.append(HEADER);
     if(total > 0) {
       MAIN.append(LIST);
     }

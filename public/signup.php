@@ -6,6 +6,7 @@ if(is_post_request()) {
 
   // Create record using post parameters
   $args = $_POST['admin'];
+  $args['user_username'] = h($args['user_username']);
   $admin = new Admin($args);
   $result = $admin->save();
   $recaptcha = $_POST['g-recaptcha-response'];
