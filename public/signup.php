@@ -8,13 +8,22 @@ if(is_post_request()) {
   $args = $_POST['admin'];
   $admin = new Admin($args);
   $result = $admin->save();
+  $recaptcha = $_POST['g-recaptcha-response'];
+  $res = reCaptcha($recaptcha);
+  
+  // Validations
+  if(!$res['success']){
+    $errors['captcha'] = "ReCaptcha Failed.";
+  }
 
-  if($result === true) {
-    $session->login($admin);
-    $session->message('You are now a member of the Bookup family! You may now save books to your bookshelf for later viewing.');
-    redirect_to(url_for('index.php'));
-  } else {
-    // show errors
+  if(empty($errors)) {
+    if($result === true) {
+      $session->login($admin);
+      $session->message('You are now a member of the Bookup family! You may now save books to your bookshelf for later viewing.');
+      redirect_to(url_for('index.php'));
+    } else {
+      // show errors
+    }
   }
 
 } else {
@@ -22,10 +31,11 @@ if(is_post_request()) {
   $admin = new Admin;
 }
 
+$captcha_page = true;
+
 include(SHARED_PATH . '/public-header.php');
 
 ?>
-
 
     <main>
       <h1>Sign Up</h1>
@@ -51,6 +61,10 @@ include(SHARED_PATH . '/public-header.php');
         <div>
           <label for="confirm-pass">Confirm Password:</label>
           <input type="password" id="confirm-pass" name="admin[confirm_password]" value="" required> <?php if(isset($admin->errors['confirm_password'])) { echo($admin->errors['confirm_password']); } ?>
+        </div>
+
+        <div>
+          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
         </div>
 
         <input type="submit" value="Sign Up">

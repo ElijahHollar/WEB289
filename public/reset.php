@@ -14,19 +14,17 @@ require_once('../private/initialize.php');
 
     $new_password = $_POST['admin[\'password\']'] ?? '';
 
-    $confirm_password = $_POST['admin[\'confirm_password\']'] ?? '';
-
+    $confirm_password = $_POST['admin[\'confirm_password\']'] ?? '';  $recaptcha = $_POST['g-recaptcha-response'];
+    $res = reCaptcha($recaptcha);
+    
     // Validations
+    if(!$res['success']){
+      $errors['captcha'] = "ReCaptcha Failed.";
+    }
     if(is_blank($confirmation_code)) {
       $errors['confirmation_code'] = "Please enter your reset code.";
     } elseif($confirmation_code != $_SESSION['confirmation_code']) {
       $errors['confirmation_code'] = "The confirmation code is incorrect.";
-    }
-    
-    if(is_blank($new_password)) {
-    }
-
-    if($new_password != $confirm_password) {
     }
 
     // if there were no errors, try to reset password
@@ -56,6 +54,8 @@ require_once('../private/initialize.php');
     }
 
   }
+  
+  $captcha_page = true;
 
   include(SHARED_PATH . '/public-header.php');
 ?>
@@ -79,6 +79,10 @@ require_once('../private/initialize.php');
         <div>
           <label for="confirm-pass">Confirm New Password:</label>
           <input type="password" id="confirm-pass" name="admin[confirm_password]" value="" required> <?php if(isset($admin->errors['confirm_password'])) { echo($admin->errors['confirm_password']); } ?>
+        </div>
+        
+        <div>
+          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
         </div>
 
         <input type="submit" value="Reset Password">

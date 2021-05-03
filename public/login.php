@@ -10,8 +10,13 @@ if(is_post_request()) {
 
   $username = $_POST['username'] ?? '';
   $password = $_POST['password'] ?? '';
-
+  $recaptcha = $_POST['g-recaptcha-response'];
+  $res = reCaptcha($recaptcha);
+  
   // Validations
+  if(!$res['success']){
+    $errors['captcha'] = "ReCaptcha Failed.";
+  }
   if(is_blank($username)) {
     $errors['username'] = "Username cannot be blank.";
   }
@@ -43,6 +48,8 @@ if(is_post_request()) {
 
 }
 
+$captcha_page = true;
+
 include(SHARED_PATH . '/public-header.php');
 
 ?>
@@ -61,6 +68,10 @@ include(SHARED_PATH . '/public-header.php');
         <div>
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" value="" required> <?php if(isset($errors['password'])) { echo($errors['password']); } ?>
+        </div>
+
+        <div>
+          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
         </div>
 
         <input type="submit" value="Log In">

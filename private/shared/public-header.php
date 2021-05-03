@@ -15,6 +15,9 @@ if(!isset($current_page)) {
     <link href="../css/style.css" rel="stylesheet">
     <title>Bookup: Home</title>
     <script src="../js/redirect.js" defer></script>
+    <?php if($captcha_page == true) { ?>
+      <script src="https://www.google.com/recaptcha/api.js"></script>
+    <?php } ?>
   </head>
 
   <body>

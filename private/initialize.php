@@ -35,3 +35,5 @@
   DatabaseObject::set_database($database);
 
   $session = new Session;
+
+  $captcha_page = false;

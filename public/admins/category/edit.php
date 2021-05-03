@@ -16,21 +16,30 @@ if($category == false) {
 }
 
 if(is_post_request()) {
-
-  $args = $_POST['category'];
-  $category->merge_attributes($args);
-  $result = $category->save();
-
-  if($result === true) {
-    $session->message("The category was updated successfully.");
-    redirect_to(url_for('admins/category/index.php'));
-  } else {
-    // show errors
+  $recaptcha = $_POST['g-recaptcha-response'];
+  $res = reCaptcha($recaptcha);
+  
+  // Validations
+  if(!$res['success']){
+    $errors['captcha'] = "ReCaptcha Failed.";
   }
-
+  if(empty($errors)) {
+    $args = $_POST['category'];
+    $category->merge_attributes($args);
+    $result = $category->save();
+  
+    if($result === true) {
+      $session->message("The category was updated successfully.");
+      redirect_to(url_for('admins/category/index.php'));
+    } else {
+      // show errors
+    }
+  }
 } else {
   // display the form
 }
+
+$captcha_page = true;
 
 ?>
 
@@ -46,6 +55,10 @@ if(is_post_request()) {
         <label for="category_name">Category:</label>
         <input type="text" id="category_name" name="category[category_name]"> <?php echo display_errors($category->errors); ?>
 
+        <div>
+          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
+        </div>
+        
         <input type="submit" value="Update Category">
       </form>
 

@@ -6,29 +6,38 @@ require_login();
 require_admin();
 
 if(is_post_request()) {
-
-  $args = $_POST['category'];
-
-  $category = new Category($args);
-  $result = $category->save();
-
-  if($result === true) {
-    $new_id = $category->id;
-    $session->message("The category was added successfully.");
-    redirect_to(url_for("admins/category/index.php"));
-  } else {
-    // show errors
+  $recaptcha = $_POST['g-recaptcha-response'];
+  $res = reCaptcha($recaptcha);
+  
+  // Validations
+  if(!$res['success']){
+    $errors['captcha'] = "ReCaptcha Failed.";
   }
 
+  if(empty($errors)) {
+    $args = $_POST['category'];
+  
+    $category = new Category($args);
+    $result = $category->save();
+  
+    if($result === true) {
+      $new_id = $category->id;
+      $session->message("The category was added successfully.");
+      redirect_to(url_for("admins/category/index.php"));
+    } else {
+      // show errors
+    }
+  }
 } else {
   // display the form
   $category = new Category;
 }
 
+$captcha_page = true;
+
 ?>
 
 <?php include(SHARED_PATH . "/admin-header.php"); ?>
-
 
     <main>
       <p class="backlink"><a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a></p>
@@ -39,6 +48,10 @@ if(is_post_request()) {
 
         <label for="category_name">Category:</label>
         <input type="text" id="category_name" name="category[category_name]"> <?php echo display_errors($category->errors); ?>
+
+        <div>
+          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
+        </div>
 
         <input type="submit" value="Create Category">
 
