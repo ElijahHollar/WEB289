@@ -24,6 +24,10 @@ if(!isset($page_title)) {
       <script src="../js/categories.js" async defer></script>
     <?php } ?>
 
+    <?php if($current_page == "subject") { ?>
+      <script src="../js/subject.js" async defer></script>
+    <?php } ?>
+
     <?php if($captcha_page == true) { ?>
       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <?php } ?>

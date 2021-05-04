@@ -6,10 +6,6 @@
 
   if(is_post_request()) {
 
-    // if(isset($_POST['search-type']) == true) {
-    //   var_dump($_POST['search-type']);
-    // } 
-
     if(isset($_POST['review']) == true) {
       
       $args = $_POST['review'];

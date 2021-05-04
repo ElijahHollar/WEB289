@@ -53,7 +53,7 @@ include(SHARED_PATH . "/admin-header.php");
 
       <h1>Edit Category: <?php echo($category->category_name); ?></h1>
 
-      <form action="<?php echo url_for('admins/category/edit.php?id=' . h(u($id))); ?>" method="post">
+      <form action="<?php echo url_for('admins/category/edit.php?id=' . $id); ?>" method="post">
         <label for="category_name">Category:</label>
         <input type="text" id="category_name" name="category[category_name]"> <?php echo display_errors($category->errors); ?>
 

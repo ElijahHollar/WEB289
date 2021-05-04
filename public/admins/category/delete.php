@@ -39,7 +39,7 @@ include(SHARED_PATH . "/admin-header.php");
       <h1>Delete Category: <?php echo($category->category_name); ?></h1>
       <p>Are you sure you want to delete this category?<p>
 
-      <form action="<?php echo url_for('/admins/category/delete.php?id=' . h(u($id))); ?>" method="post">
+      <form action="<?php echo url_for('/admins/category/delete.php?id=' . $id); ?>" method="post">
         <input type="submit" value="Delete Category">
       </form>
     </main>

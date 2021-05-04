@@ -1,113 +1,28 @@
-const BODY = document.querySelector("body");
 const MAIN = document.querySelector("main");
-const SEARCH = document.querySelector("#search");
 const LIST = document.createElement("ol");
-const PARAM = document.querySelector("#search-type");
 const lastElement = document.querySelector("#modalBackground");
 let isScrolled = false;
 let books = [];
 let indexNum = 0;
-var searchError = false;
 var searchNumber = 0;
 let modalReview = false;
 
 loadSearch();
-submitSearchTerm();
-
-/**
- * Builds a URL string from the user's search term/phrase then passes that url to a function that creates the request
- *
- */
-function submitSearchTerm() {
-  const SUBMIT = document.querySelector("#submit-search"); 
-  SUBMIT.addEventListener("click", function(e){
-    e.preventDefault();
-    indexNum = 0;
-    var rawValue = SEARCH.value;
-    var searchValue = rawValue.replace( /(<([^>]+)>)/ig, '');
-
-    var paramValue = PARAM.value;
-    var searchType = "";
-
-    if(paramValue == "title") {
-      searchType = "intitle";
-    } else if(paramValue == "category") {
-      searchType = "subject";
-    } else if(paramValue == "author") {
-      searchType = "inauthor";
-    } else if(paramValue == "publisher") {
-      searchType = "inpublisher";
-    } else if(paramValue == "isbn") {
-      searchType = "isbn";
-    }
-
-    if(searchValue !== "") {
-      searchError = false;
-      let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
-      createRequest(url, searchValue, searchType, searchSuccess, searchError, 0);
-    } else if(searchError == false) {
-      if(MAIN.lastElementChild != lastElement) {
-        movies = [];
-      
-        document.querySelector("h2:last-of-type").style.display = "none";
-      
-        LIST.textContent = "";
-      }
-      const HEADER = document.createElement("h2");
-      HEADER.innerHTML = `Please enter a search term.`;
-      MAIN.append(HEADER);
-      searchError = true;
-    }
-  });
-}
 
 /**
  * Gets the users last saved search value and, if a value exists, uses it to autopopulate the search bar and load the matching content
  * 
  */
 function loadSearch() {
-  let rawValue = localStorage.getItem("searchValue");
+  let rawValue = document.querySelector("main h1").innerHTML;
   var searchValue = rawValue.replace( /(<([^>]+)>)/ig, '');
-  let searchType = localStorage.getItem("searchType");
+  let searchType = "subject";
   if(searchValue !== "") {
 
-    SEARCH.value = searchValue;
+    // SEARCH.value = searchValue;
 
-    if(localStorage.getItem("searchType") == "title") {
-      searchType = "intitle";
-    }
-    if(localStorage.getItem("searchType") == "category") {
-      searchType = "subject";
-      document.querySelector(".search-form select option:nth-of-type(2)").setAttribute("selected", "selected");
-    }
-    if(localStorage.getItem("searchType") == "author") {
-      searchType = "inauthor";
-      console.log("author");
-      document.querySelector(".search-form select option:nth-of-type(3)").setAttribute("selected", "selected");
-    }
-    if(localStorage.getItem("searchType") == "publisher") {
-      searchType = "inpublisher";
-      document.querySelector(".search-form select option:nth-of-type(4)").setAttribute("selected", "selected");
-    }
-    if(localStorage.getItem("searchType") == "isbn") {
-      searchType = "isbn";
-      document.querySelector(".search-form select option:nth-of-type(5)").setAttribute("selected", "selected");
-    }
-
-    let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
+    let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
     createRequest(url, searchValue, searchType, searchSuccess, searchError, 0);
-  } else if(searchError == false) {
-    if(MAIN.lastElementChild != lastElement) {
-      movies = [];
-    
-      document.querySelector("h2:last-of-type").style.display = "none";
-    
-      LIST.textContent = "";
-    }
-    const HEADER = document.createElement("h2");
-    HEADER.innerHTML = `Please enter a search term.`;
-    MAIN.append(HEADER);
-    searchError = true;
   }
 }
 
@@ -142,39 +57,14 @@ function handleErrors(response) {
 }
 
 function searchSuccess(parsedData, searchValue, searchType, index){
-  const HEADER = document.createElement("h2");
   let total = parsedData.totalItems;
   var error = false;
-
+  
+  MAIN.append(LIST);
+  
   if(total > 0) {
-    HEADER.innerHTML = `Search results for <i>${searchValue}</i>:`;
-  } else if (indexNum == 0) {
-    error = true;
-    LIST.textContent = "";
-    HEADER.innerHTML = `Sorry. No books found with <i>${searchValue}</i>`;
-  }
-  
-  if(MAIN.lastElementChild != lastElement && indexNum == 0) {
-    books = [];
-
-    document.querySelector("h2:last-of-type").style.display = "none";
-     
-    MAIN.append(HEADER);
-
-    if(total > 0) {
-      LIST.textContent = "";
-      MAIN.append(LIST);
-    }
-  } else if(indexNum == 0) {
-    MAIN.append(HEADER);
-    if(total > 0) {
-      MAIN.append(LIST);
-    }
-  }
-  
-  if(total > 0) {  
-    for(i = 0; i < parsedData.items.length; i++) {
-      if(parsedData.items != undefined) {
+    if(parsedData.items != undefined) {
+      for(i = 0; i < parsedData.items.length; i++) {
         books.push(parsedData.items[i]);
         
         const TITLE = document.createElement("p");
@@ -182,9 +72,9 @@ function searchSuccess(parsedData, searchValue, searchType, index){
         const detailsLink = document.createElement("a");
         const IMAGE = document.createElement("img");
         const listItem = document.createElement("li");
-  
+
         TITLE.textContent = parsedData.items[i].volumeInfo.title;
-  
+
         DETAILS.append(detailsLink);
         detailsLink.innerHTML = "About this book &#xbb;";
         detailsLink.setAttribute("href", "#");
@@ -205,11 +95,11 @@ function searchSuccess(parsedData, searchValue, searchType, index){
           IMAGE.setAttribute("alt", `Image replacement for missing book cover`);
           IMAGE.className = "replacement-image";
         }
-  
+
         listItem.append(TITLE);
         listItem.append(DETAILS);
         listItem.append(IMAGE);
-  
+
         LIST.append(listItem);
       }
     }
@@ -219,7 +109,7 @@ function searchSuccess(parsedData, searchValue, searchType, index){
     if (window.scrollY > (document.body.offsetHeight - 1200) && !isScrolled) {
       isScrolled = true;
       indexNum++;
-      let url = `https://www.googleapis.com/books/v1/volumes?q=search+${localStorage.getItem("searchType")}:${SEARCH.value}&startIndex=${indexNum * 10}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
+      let url = `https://www.googleapis.com/books/v1/volumes?q=search+${localStorage.getItem("searchType")}:${searchValue}&startIndex=${indexNum * 10}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
       createRequest(url, searchValue, searchType, searchSuccess, searchError, indexNum);
 
       setTimeout(function() {
@@ -229,24 +119,7 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   }
 
   if(indexNum == 0 && error == false) {
-    let searchParam = "";
-    if(searchType == "intitle") {
-      searchParam = "title";
-    }
-    if(searchType == "subject") {
-      searchParam = "category";
-    }
-    if(searchType == "inauthor") {
-      searchParam = "author";
-    }
-    if(searchType == "inpublisher") {
-      searchParam = "publisher";
-    }
-    if(searchType == "isbn") {
-      searchParam = "isbn";
-    }
-
-    saveSearch(searchValue, searchParam);
+    saveSearch(searchValue, searchType);
     window.addEventListener('scroll', infiniteScroll);
   }
 }

@@ -6,6 +6,8 @@
 
   $reviews = Review::find_all();
   
+  // var_dump($reviews);
+  
   $current_page = 'review-home';
 
   $page_title = 'Bookup Admin: Review Home';
@@ -33,8 +35,8 @@
             <td><?php echo h($review->review_isbn); ?></td>
             <td><?php echo h($review->review_text); ?></td>
             <td><?php echo h($review->review_date); ?></td>
-            <td><a class="action" href="<?php echo url_for('admins/review/show.php?id=' . h(u($review->review_id))); ?>">Show</a></td>
-            <td><a class="action" href="<?php echo url_for('admins/review/delete.php?id=' . h(u($review->review_id))); ?>">Delete</a></td>
+            <td><a class="action" href="<?php echo url_for('admins/review/show.php?id=' . $review->review_id); ?>">Show</a></td>
+            <td><a class="action" href="<?php echo url_for('admins/review/delete.php?id=' . $review->review_id); ?>">Delete</a></td>
           </tr>
         <?php } ?>
       </table>

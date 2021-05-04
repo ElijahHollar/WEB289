@@ -22,7 +22,7 @@ if(is_post_request()) {
 
   $result = $review->delete();
 
-  $session->message('Review #' . $Review->review_id . ' was deleted successufully.');
+  $session->message('Review #' . $review->review_id . ' was deleted successufully.');
   redirect_to(url_for('/admins/review/index.php'));
 
 } else {
@@ -39,7 +39,7 @@ include(SHARED_PATH . "/admin-header.php");
       <h1>Delete Review: <?php echo("#" . $review->review_id) ?></h1>
       <p>Are you sure you want to delete this review?<p>
 
-      <form action="<?php echo url_for('/admins/review/delete.php?id=' . h(u($id))); ?>" method="post">
+      <form action="<?php echo url_for('/admins/review/delete.php?id=' . $id); ?>" method="post">
         <input type="submit" value="Delete Review">
       </form>
     </main>

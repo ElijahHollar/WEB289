@@ -24,7 +24,9 @@ class DatabaseObject {
    *
    */
   static public function find_by_sql($sql) {
+    // var_dump($sql);
     $result = self::$database->query($sql);
+    // var_dump($result);
     if(!$result) {
       return false;
     }
