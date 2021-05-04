@@ -16,10 +16,10 @@ if(!isset($page_title)) {
     <meta charset="utf-8">
     <link href="<?php echo url_for('../css/style.css'); ?>" rel="stylesheet">
     <title><?php echo($page_title); ?></title>
-    <script src="<?php echo url_for('../js/redirect.js'); ?>" defer></script>
+    <script src="<?php echo url_for('../js/redirect.js'); ?>" async defer></script>
 
     <?php if($captcha_page == true) { ?>
-      <script src="https://www.google.com/recaptcha/api.js"></script>
+      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <?php } ?>
   
   </head>

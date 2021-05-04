@@ -14,7 +14,7 @@ if(!isset($current_page)) {
     <meta charset="utf-8">
     <link href="../css/style.css" rel="stylesheet">
     <title>Bookup: Search Results</title>
-    <script src="../js/search-api.js" defer></script>
+    <script src="../js/search-api.js" async defer></script>
   </head>
 
   <body>

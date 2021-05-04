@@ -149,8 +149,6 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   let total = parsedData.totalItems;
   var error = false;
 
-  searchNumber++;
-
   if(total > 0) {
     HEADER.innerHTML = `Search results for <i>${searchValue}</i>:`;
   } else if (indexNum == 0) {
@@ -272,7 +270,7 @@ function saveSearch(searchValue, searchType) {
  *
  */
 function searchError(response){
-  console.log("Error!");
+  console.log("Error!"); 
   console.log(response);
 }
 
@@ -316,7 +314,7 @@ function modalSuccess(parsedData, id) {
       const reviewISBN = document.querySelector("#review_isbn");
       let book = parsedData.items[0].volumeInfo.title;
   
-      writeButton.before(bookshelfForm);
+      // writeButton.before(bookshelfForm);
       
       reviewHeading.className = "bold";
       reviewHeading.textContent = `Reviewing ${book}`;

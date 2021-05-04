@@ -18,10 +18,14 @@ if(!isset($page_title)) {
     <meta charset="utf-8">
     <link href="../css/style.css" rel="stylesheet">
     <title><?php echo($page_title); ?></title>
-    <script src="../js/redirect.js" defer></script>
+    <script src="../js/redirect.js" async defer></script>
+
+    <?php if($current_page == "home") { ?>
+      <script src="../js/categories.js" async defer></script>
+    <?php } ?>
 
     <?php if($captcha_page == true) { ?>
-      <script src="https://www.google.com/recaptcha/api.js"></script>
+      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <?php } ?>
   
   </head>

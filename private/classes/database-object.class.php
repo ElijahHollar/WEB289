@@ -207,4 +207,17 @@ class DatabaseObject {
     // but, for example, we can't call $user->update() after
     // calling $user->delete().
   }
+
+  /**
+   * Deletes the record matching the id of the current instance of the class the function is called in
+   *
+   */
+  protected function validate() {
+    $this->errors = [];
+
+    // Add custom validations
+
+    return $this->errors;
+  }
+
 }

@@ -66,9 +66,7 @@
     
       if(!already_in_bookshelf($this->bookshelf_item_isbn, $this->user_id)) {
         $this->errors['bookshelf'] = "You have already added this book to your bookshelf.";
-        echo "<script>console.log('bookshelf error!' );</script>";
       }
-  
       return $this->errors;
     }
   }

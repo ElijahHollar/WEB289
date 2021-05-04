@@ -14,8 +14,8 @@ if(!isset($current_page)) {
     <meta charset="utf-8">
     <link href="../css/style.css" rel="stylesheet">
     <title>Bookup: My Bookshelf</title>
-    <script src="../js/redirect.js" defer></script>
-    <script src="../js/bookshelf.js" defer></script>
+    <script src="../js/redirect.js" async defer></script>
+    <script src="../js/bookshelf.js" async defer></script>
   </head>
 
   <body>
