@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Checks to see if the user attempting to access the web page is logged into the site, if not it redirects the user to the site's homepage and 
+ * prepares a session message telling them that they need to log in to access the page
+ *
+ */
 function require_login() {
   global $session;
   if(!$session->is_logged_in()) {
@@ -10,6 +15,10 @@ function require_login() {
   }
 }
 
+/**
+ * Checks to see if the user attempting to access the web page is an admin of the site, if not it redirects the user to the site's homepage
+ *
+ */
 function require_admin() {
   global $session;
   if($session->user_level !== 'a') {
@@ -19,6 +28,12 @@ function require_admin() {
   }
 }
 
+/**
+ * Takes a supplied array of error messages and displays them in a <div> containing a list, or returns an empty string if the supplied array is empty
+ *
+ * @param {array} $errors=array() - the array of errors to be displayed
+ *
+ */
 function display_errors($errors=array()) {
   $output = '';
   if(!empty($errors)) {
@@ -34,14 +49,10 @@ function display_errors($errors=array()) {
   return $output;
 }
 
-function get_and_clear_session_message() {
-  if(isset($_SESSION['message']) && $_SESSION['message'] != '') {
-    $msg = $_SESSION['message'];
-    unset($_SESSION['message']);
-    return $msg;
-  }
-}
-
+/**
+ * Gets the current message stored in the session class, and displays it if it isn't null or empty. Clears the current session message as well.
+ *
+ */
 function display_session_message() {
   global $session;
   $msg = $session->message();

@@ -4,7 +4,6 @@ let modalReview = false;
 fetch(`bookshelf-fetch.php`)
     .then(responseFromServer => responseFromServer.text())
     .then(goodData => bookshelfDisplay(goodData))
-    .catch(thereWasAnError => console.log("Error:" . thereWasAnError));
 
 function bookshelfDisplay(bookshelfData) {
   document.querySelector("#isbnStorage").innerHTML = bookshelfData;
@@ -14,7 +13,7 @@ function bookshelfDisplay(bookshelfData) {
   for (i = 0; i < ISBNS.length; i++) {
     let id = ISBNS[i].textContent;
     let url = `https://www.googleapis.com/books/v1/volumes?q=search+isbn:${id}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
-    createRequest(url, id, "", searchSuccess, searchError, 0);
+    createRequest(url, id, "", booksSuccess, booksError, 0);
   }
 }
 
@@ -25,20 +24,16 @@ function createRequest(url, searchValue, searchType, onSuccess, onError, indexNu
     .catch(thereWasAnError => onError(thereWasAnError, searchValue));
 }
 
-function searchSuccess(parsedData) {
+function booksSuccess(parsedData) {
       const TITLE = document.createElement("p");
-      // const YEAR = document.createElement("p");
       const DETAILS = document.createElement("p");
       const detailsLink = document.createElement("a");
       const IMAGE = document.createElement("img");
       const listItem = document.createElement("li");
 
       TITLE.textContent = parsedData.items[0].volumeInfo.title;
-      // TITLE.className = "title";
-      // YEAR.textContent = parsedData.items[0].volumeInfo.publishedDate;
-      // YEAR.className = "year";
+
       DETAILS.append(detailsLink);
-      // DETAILS.className = "details";
       detailsLink.innerHTML = "About this book &#xbb;";
       detailsLink.setAttribute("href", "#");
       detailsLink.setAttribute("data-id", parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier);
@@ -57,14 +52,13 @@ function searchSuccess(parsedData) {
       }
 
       listItem.append(TITLE);
-      // listItem.append(YEAR);
       listItem.append(DETAILS);
       listItem.append(IMAGE);
 
       LIST.append(listItem);
 }
 
-function searchError(response){
+function booksError(response){
   console.log("Error!");
   console.log(response);
 }
@@ -76,7 +70,6 @@ function modalUrl(id) {
 
 function modalSuccess(parsedData, id) {
   const modalBack = document.querySelector("#modalBackground");
-  const modalBox = document.querySelector("#modalBox");
   const modalClose = document.querySelector("#close");
   const modalImg = document.querySelector("#modalBox img");
   const TITLE = document.querySelector("#modalBox div:first-of-type p");
@@ -86,10 +79,6 @@ function modalSuccess(parsedData, id) {
   const EXCERPT = document.querySelector("#modalBox div:nth-of-type(5) p");
   const REVIEWS = document.querySelector("#reviewViewing");
   const WRITING = document.querySelector("#reviewWriting");
-  const reviewBox = document.querySelector("#reviewBox");
-  let bookData = parsedData;
-
-  console.log(parsedData);
 
   if(parsedData.items != undefined) {
   
@@ -116,7 +105,6 @@ function modalSuccess(parsedData, id) {
       .then(goodData => document.getElementById("reviews").innerHTML = goodData)
       .catch(thereWasAnError => console.log(thereWasAnError));
     
-    // console.log(parsedData);
     const reviewBook = document.querySelector("#reviewViewing h3");
     
     if(parsedData.items[0].volumeInfo.title != undefined) {
@@ -180,48 +168,12 @@ function modalSuccess(parsedData, id) {
 function modalReviewing(e) {
   e.preventDefault();
   
-  console.log("Default Prevented");
-  
   const REVIEWS = document.querySelector("#reviewViewing");
   REVIEWS.style.display = 'none';
 
   const WRITING = document.querySelector("#reviewWriting");
   WRITING.style.display = 'block';
   modalReview = true;
-  
-  // event.preventDefault();
-  // const writeButton = document.querySelector("#review-button");
-  // console.log("Im still working!");
-  
-  // if(modalReview == true) {
-    //   modalReview = false;
-    //   console.log(parsedData.items[0].volumeInfo.title);
-    
-    // const reviewHeading = document.createElement("p");
-    // const reviewForm = document.createElement("form");
-    // const reviewFormLabel = document.createElement("label");
-    // const reviewFormInput = document.createElement("textarea");
-    // const reviewFormSubmit = document.createElement("input");
-    
-    // reviewForm.setAttribute("action", "/WEB289/public/search.php");
-    // reviewForm.setAttribute("method", "post");
-    // reviewFormLabel.setAttribute("for", "review-input");
-    // reviewFormLabel.textContent = "Review Text:";
-    // reviewFormInput.setAttribute("rows", "25");
-    // reviewFormInput.setAttribute("cols", "80");
-    // reviewFormInput.setAttribute("maxlength", "2500");
-    // reviewFormInput.setAttribute("id", "review-input");
-    // reviewFormInput.setAttribute("name", "review-input");
-    // reviewFormSubmit.setAttribute("type", "submit");
-    // reviewFormSubmit.setAttribute("id", "submit-review");
-    // reviewFormSubmit.setAttribute("value", "Submit Review");
-  
-    // reviewBox.append(reviewHeading);
-    // reviewBox.append(reviewForm);
-    // reviewForm.append(reviewFormLabel);
-    // reviewForm.append(reviewFormInput);
-    // reviewForm.append(reviewFormSubmit);
-  // }
 }
 
 function modalFail(response, id) {
@@ -241,13 +193,4 @@ function handleErrors(response) {
     throw(response.status + ': ' + response.statusText);
   }
   return response.json();
-}
-
-function displayBook(bookData) {
-  console.log(bookData);
-}
-
-function bookError(response) {
-  // console.log(`Error encountered trying to retrive ${searchValue}`);
-  console.log(`Error: ${response}`);
 }

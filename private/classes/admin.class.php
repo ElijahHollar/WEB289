@@ -15,6 +15,12 @@
     public $confirm_password;
     protected $password_required = true;
 
+    /**
+     * Creates a new instance of the admin class using an array of provided values
+     *
+     * @param {array} $args[] - the array of provided values
+     *
+     */
     public function __construct($args=[]) {
         $this->user_email_address = $args['user_email_address'] ?? '';
         $this->user_username = $args['user_username'] ?? '';
@@ -23,19 +29,35 @@
         $this->confirm_password = $args['confirm_password'] ?? '';
     }
 
+    /**
+     * Encrypts the current user's password and stores it in the current class instance
+     *
+     */
     protected function set_hashed_password() {
         $this->user_password = password_hash($this->password, PASSWORD_BCRYPT);
     }
-
+    
+    /**
+     * Checks to see if the supplied password matches the password stored in the current instance of the class
+     *
+     */
     public function verify_password($password) {
       return password_verify($password, $this->user_password);
     }
 
+    /**
+     * Uses the set_hashed_password() function to encrypt the current user's password before running the normal create() function
+     *
+     */
     public function create() {
         $this->set_hashed_password();
         return parent::create();
     }
 
+    /**
+     * Checks to see if the current user's password is being updated, encrypting the new one if it is, before calling the normal update() function
+     *
+     */
     public function update() {
         if($this->password != '') {
             $this->set_hashed_password();
@@ -47,6 +69,10 @@
         return parent::update();
     }
 
+    /**
+     * Checks to see if the user is entering a valid email address, valid username, valid password, and has correctly confirmed their password
+     *
+     */
     protected function validate() {
         $this->errors = [];
       
@@ -90,7 +116,13 @@
       
         return $this->errors;
     }
-    
+
+    /**
+     * Attempts to retrieve all records from the database table associated with the current class where the stored username matches the provided username
+     *
+     * @param {string} $user_username - the username who's matching records are to be retrieved
+     *
+     */
     static public function find_by_username($user_username) {
       $sql = "SELECT * FROM " . static::$table_name . " ";
       $sql .= "WHERE user_username=" . self::$database->quote($user_username);
@@ -102,6 +134,12 @@
       }
     }
 
+    /**
+     * Attempts to retrieve all records from the database table associated with the current class where the stored email addres matches the provided email address
+     *
+     * @param {string} $user_username - the email address who's matching records are to be retrieved
+     *
+     */
     static public function find_by_email($user_email_address) {
       $sql = "SELECT * FROM " . static::$table_name . " ";
       $sql .= "WHERE user_email_address=" . self::$database->quote($user_email_address);

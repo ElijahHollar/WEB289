@@ -14,8 +14,6 @@ let modalReview = false;
 loadSearch();
 submitSearchTerm();
 
-console.log(MAIN.lastElementChild);
-
 /**
  * Builds a URL string from the user's search term/phrase then passes that url to a function that creates the request
  *
@@ -24,14 +22,13 @@ function submitSearchTerm() {
   const SUBMIT = document.querySelector("#submit-search"); 
   SUBMIT.addEventListener("click", function(e){
     e.preventDefault();
-    console.log("Click!");
     indexNum = 0;
     var rawValue = SEARCH.value;
     var searchValue = rawValue.replace( /(<([^>]+)>)/ig, '');
 
-    // var searchValue = rawValue.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var paramValue = PARAM.value;
     var searchType = "";
+
     if(paramValue == "title") {
       searchType = "intitle";
     } else if(paramValue == "category") {
@@ -43,7 +40,7 @@ function submitSearchTerm() {
     } else if(paramValue == "isbn") {
       searchType = "isbn";
     }
-    console.log(searchType);
+
     if(searchValue !== "") {
       searchError = false;
       let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
@@ -73,20 +70,33 @@ function loadSearch() {
   var searchValue = rawValue.replace( /(<([^>]+)>)/ig, '');
   let searchType = localStorage.getItem("searchType");
   if(searchValue !== "") {
-    console.log(searchValue);
+
+    console.log("search loaded");
+
     SEARCH.value = searchValue;
+
+    console.log(searchType);
     if(localStorage.getItem("searchType") == "title") {
       searchType = "intitle";
-    } else if(localStorage.getItem("searchType") == "category") {
-      searchType = "subject";
-    } else if(localStorage.getItem("searchType") == "author") {
-      searchType = "inauthor";
-    } else if(localStorage.getItem("searchType") == "publisher") {
-      searchType = "inpublisher";
-    } else if(localStorage.getItem("searchType") == "isbn") {
-      searchType = "isbn";
     }
-    console.log(searchType);
+    if(localStorage.getItem("searchType") == "category") {
+      searchType = "subject";
+      document.querySelector(".search-form select option:nth-of-type(2)").setAttribute("selected", "selected");
+    }
+    if(localStorage.getItem("searchType") == "author") {
+      searchType = "inauthor";
+      console.log("author");
+      document.querySelector(".search-form select option:nth-of-type(3)").setAttribute("selected", "selected");
+    }
+    if(localStorage.getItem("searchType") == "publisher") {
+      searchType = "inpublisher";
+      document.querySelector(".search-form select option:nth-of-type(4)").setAttribute("selected", "selected");
+    }
+    if(localStorage.getItem("searchType") == "isbn") {
+      searchType = "isbn";
+      document.querySelector(".search-form select option:nth-of-type(5)").setAttribute("selected", "selected");
+    }
+
     let url = `https://www.googleapis.com/books/v1/volumes?q=search+${searchType}:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
     createRequest(url, searchValue, searchType, searchSuccess, searchError, 0);
   } else if(searchError == false) {
@@ -140,10 +150,6 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   var error = false;
 
   searchNumber++;
-  
-  console.log(parsedData);
-
-  // lastElement.innerHTML = `Total searchs: ${searchNumber}`;
 
   if(total > 0) {
     HEADER.innerHTML = `Search results for <i>${searchValue}</i>:`;
@@ -174,23 +180,16 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   if(total > 0) {  
     for(i = 0; i < parsedData.items.length; i++) {
       books.push(parsedData.items[i]);
-
-      // console.log(parsedData.items[i]);
-      // console.log(parsedData.items[i].volumeInfo.industryIdentifiers[0].identifier);
       
       const TITLE = document.createElement("p");
-      // const YEAR = document.createElement("p");
       const DETAILS = document.createElement("p");
       const detailsLink = document.createElement("a");
       const IMAGE = document.createElement("img");
       const listItem = document.createElement("li");
 
       TITLE.textContent = parsedData.items[i].volumeInfo.title;
-      // TITLE.className = "title";
-      // YEAR.textContent = parsedData.items[i].volumeInfo.publishedDate;
-      // YEAR.className = "year";
+
       DETAILS.append(detailsLink);
-      // DETAILS.className = "details";
       detailsLink.innerHTML = "About this book &#xbb;";
       detailsLink.setAttribute("href", "#");
       detailsLink.setAttribute("data-id", parsedData.items[i].volumeInfo.industryIdentifiers[0].identifier);
@@ -212,7 +211,6 @@ function searchSuccess(parsedData, searchValue, searchType, index){
       }
 
       listItem.append(TITLE);
-      // listItem.append(YEAR);
       listItem.append(DETAILS);
       listItem.append(IMAGE);
 
@@ -226,7 +224,6 @@ function searchSuccess(parsedData, searchValue, searchType, index){
       indexNum++;
       let url = `https://www.googleapis.com/books/v1/volumes?q=search+${localStorage.getItem("searchType")}:${SEARCH.value}&startIndex=${indexNum * 10}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
       createRequest(url, searchValue, searchType, searchSuccess, searchError, indexNum);
-      console.log(url);
 
       setTimeout(function() {
         isScrolled = false;
@@ -235,12 +232,25 @@ function searchSuccess(parsedData, searchValue, searchType, index){
   }
 
   if(indexNum == 0 && error == false) {
-    saveSearch(searchValue, searchType);
+    let searchParam = "";
+    if(searchType == "intitle") {
+      searchParam = "title";
+    }
+    if(searchType == "subject") {
+      searchParam = "category";
+    }
+    if(searchType == "inauthor") {
+      searchParam = "author";
+    }
+    if(searchType == "inpublisher") {
+      searchParam = "publisher";
+    }
+    if(searchType == "isbn") {
+      searchParam = "isbn";
+    }
+
+    saveSearch(searchValue, searchParam);
     window.addEventListener('scroll', infiniteScroll);
-    // if(window.innerHeight >= document.body.offsetHeight) {
-    //   let url = `https://www.googleapis.com/books/v1/volumes?q=search+intitle:${searchValue}&startIndex=${indexNum}&key=AIzaSyB_PSiIxj2VfyklbxORej0LorymkSYZCCI`;
-    //   createRequest(url, searchValue, searchSuccess, searchError, indexNum);
-	  // }
   }
 }
 
@@ -277,7 +287,6 @@ function getISBN10(isbn){
 
 function modalSuccess(parsedData, id) {
   const modalBack = document.querySelector("#modalBackground");
-  const modalBox = document.querySelector("#modalBox");
   const modalClose = document.querySelector("#close");
   const modalImg = document.querySelector("#modalBox img");
   const TITLE = document.querySelector("#modalBox div:first-of-type p");
@@ -287,16 +296,8 @@ function modalSuccess(parsedData, id) {
   const EXCERPT = document.querySelector("#modalBox div:nth-of-type(5) p");
   const REVIEWS = document.querySelector("#reviewViewing");
   const WRITING = document.querySelector("#reviewWriting");
-  const reviewBox = document.querySelector("#reviewBox");
-  let bookData = parsedData;
-
-  console.log(parsedData);
 
   if(parsedData.items != undefined) {
-
-    let bookIS = parsedData.items[0].volumeInfo.industryIdentifiers.find(getISBN10);
-    
-    console.log(bookIS.identifier);
   
     REVIEWS.style.display = "block";
     WRITING.style.display = 'none';
@@ -331,7 +332,6 @@ function modalSuccess(parsedData, id) {
       .then(goodData => document.getElementById("reviews").innerHTML = goodData)
       .catch(thereWasAnError => console.log(thereWasAnError));
     
-    // console.log(parsedData);
     const reviewBook = document.querySelector("#reviewViewing h3");
     
     if(parsedData.items[0].volumeInfo.title != undefined) {
@@ -395,55 +395,12 @@ function modalSuccess(parsedData, id) {
 function modalReviewing(e) {
   e.preventDefault();
   
-  console.log("Default Prevented");
-  
   const REVIEWS = document.querySelector("#reviewViewing");
   REVIEWS.style.display = 'none';
 
   const WRITING = document.querySelector("#reviewWriting");
   WRITING.style.display = 'block';
   modalReview = true;
-  
-  // event.preventDefault();
-  // const writeButton = document.querySelector("#review-button");
-  // console.log("Im still working!");
-  
-  // if(modalReview == true) {
-    //   modalReview = false;
-    //   console.log(parsedData.items[0].volumeInfo.title);
-    
-    // const reviewHeading = document.createElement("p");
-    // const reviewForm = document.createElement("form");
-    // const reviewFormLabel = document.createElement("label");
-    // const reviewFormInput = document.createElement("textarea");
-    // const reviewFormSubmit = document.createElement("input");
-    
-    // reviewForm.setAttribute("action", "/WEB289/public/search.php");
-    // reviewForm.setAttribute("method", "post");
-    // reviewFormLabel.setAttribute("for", "review-input");
-    // reviewFormLabel.textContent = "Review Text:";
-    // reviewFormInput.setAttribute("rows", "25");
-    // reviewFormInput.setAttribute("cols", "80");
-    // reviewFormInput.setAttribute("maxlength", "2500");
-    // reviewFormInput.setAttribute("id", "review-input");
-    // reviewFormInput.setAttribute("name", "review-input");
-    // reviewFormSubmit.setAttribute("type", "submit");
-    // reviewFormSubmit.setAttribute("id", "submit-review");
-    // reviewFormSubmit.setAttribute("value", "Submit Review");
-  
-    // reviewBox.append(reviewHeading);
-    // reviewBox.append(reviewForm);
-    // reviewForm.append(reviewFormLabel);
-    // reviewForm.append(reviewFormInput);
-    // reviewForm.append(reviewFormSubmit);
-  // }
-}
-
-function bookshelfAdd(parsedData) {
-  console.log(parsedData);
-  // fetch(`bookshelf-add.php?isbn=${parsedData.items[0].volumeInfo.industryIdentifiers[0].identifier}`)
-  //   .then(responseFromServer => responseFromServer.text())
-  //   .catch(thereWasAnError => console.log(thereWasAnError));
 }
 
 function modalFail(response, id) {

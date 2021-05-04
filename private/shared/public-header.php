@@ -19,9 +19,11 @@ if(!isset($page_title)) {
     <link href="../css/style.css" rel="stylesheet">
     <title><?php echo($page_title); ?></title>
     <script src="../js/redirect.js" defer></script>
+
     <?php if($captcha_page == true) { ?>
       <script src="https://www.google.com/recaptcha/api.js"></script>
     <?php } ?>
+  
   </head>
 
   <body>
@@ -31,7 +33,9 @@ if(!isset($page_title)) {
       <nav role="navigation">
         <ul>
           <li><a class="<?php if($current_page == "home") { echo "current-page"; } ?>" href="index.php">Home</a></li>
+
           <li><a class="<?php if($current_page == "about") { echo "current-page"; } ?>" href="about.php">About</a></li>
+
           <li class="dropdown">
             <a class="dropbtn <?php if($current_page == "subject") { echo "current-page"; } ?>">Subjects</a>
             <ul class="dropdown-content">
@@ -40,14 +44,17 @@ if(!isset($page_title)) {
               <li><a href="<?php echo($subject_path . "?subject=Historical") ?>">Historical</a></li>
             </ul>
           </li>
+
           <?php if($session->is_logged_in()) { ?>
             <li><a class="<?php if($current_page == "bookshelf") { echo "current-page"; } ?>" href="bookshelf.php">My Bookshelf</a></li>
           <?php } ?>
         </ul>
+
         <div>
           <?php if($session->is_logged_in()) { ?>
             <a href="logout.php" class="logout"><?php echo "Log Out " . $session->username; ?></a>
           <?php } ?>      
+
           <?php if($session->is_admin()) { ?>
             <a href="admins/index.php" class="login">Backend</a>
           <?php } ?>
@@ -56,10 +63,10 @@ if(!isset($page_title)) {
             <a href="login.php" class="login">Log In</a>
             <a href="signup.php" class="login">Sign Up</a>
           <?php } ?>
+          
           <form class="search-form" action="<?php echo url_for('search.php'); ?>" method="post">
-            <label for="search">Search:</label>
-            <input type="text" id="search" name="search" required>
-            <label for="search-type">By:</label>
+
+            <label for="search-type">Search By:</label>
             <select id="search-type" name="search-type">
               <option value="title">Title</option>
               <option value="category">Category</option>
@@ -67,6 +74,10 @@ if(!isset($page_title)) {
               <option value="publisher">Publisher</option>
               <option value="isbn">ISBN</option>
             </select>
+
+            <label for="search">Search For:</label>
+            <input type="text" id="search" name="search" required>
+            
             <input type="submit" id="submit-search" value="Search">
           </form>
         </div>

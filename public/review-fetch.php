@@ -17,7 +17,7 @@ if($reviews != false) {
     echo("</div>");
   }
 } else {
-  echo("<p>No reviews found.</p>");
+  echo("<p>No reviews found for this book. Be the first to write one!</p>");
 }
 
 ?>
