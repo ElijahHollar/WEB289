@@ -11,7 +11,7 @@ if($reviews != false) {
     $username = Admin::find_by_id($review->user_id);
   
     echo("<div class=\"review\">");
-    echo("<p>" . $username->user_username . "</p>");
+    echo("<p>Posted By: " . $username->user_username . "</p>");
     echo("<p>Posted On: " . $review->review_date . "</p>");
     echo("<p>" . $review->review_text . "</p>");
     echo("</div>");

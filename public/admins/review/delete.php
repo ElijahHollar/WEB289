@@ -37,7 +37,7 @@ if(is_post_request()) {
     <main>
       <p class="backlink"><a href="<?php echo url_for('admins/review/index.php') ?>">&laquo; Back to List</a></p>
       
-      <h1>Delete Review</h1>
+      <h1>Delete Review: <?php echo("#" . $review->review_id) ?></h1>
       <p>Are you sure you want to delete this review?<p>
 
       <form action="<?php echo url_for('/admins/review/delete.php?id=' . h(u($id))); ?>" method="post">

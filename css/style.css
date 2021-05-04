@@ -3,7 +3,7 @@ body {
 }
 
 header {
-  background-color: beige;
+  background-color: #f5f5dc;
   margin-bottom: 20px;
 }
 
@@ -25,7 +25,6 @@ nav {
   grid-template-rows: auto;
 }
 
-
 header ul {
   display: inline-block;
   margin: 0;
@@ -43,6 +42,14 @@ header ul li:nth-of-type(3) {
   width: 119.1px;
 }
 
+.current-page {
+  background-color: #424242;
+}
+
+.current-page:hover {
+  background-color: #424242;
+}
+
 header a {
   background-color: #2c1d00;
   color: #fff;
@@ -55,14 +62,6 @@ header a {
 
 header a:hover {
   background-color: #686868;
-}
-
-.current-page {
-  background-color: #424242;
-}
-
-.current-page:hover {
-  background-color: #424242;
 }
 
 .dropbtn {
@@ -110,9 +109,9 @@ nav div {
 }
 
 .login {
+  background-color: #2c1d00;
   color: #fff;
   cursor: pointer;
-  background-color: #2c1d00;
   grid-column: 2;
   margin: 0 0 10px auto;
   padding: 5px 0;
@@ -126,9 +125,9 @@ nav div {
 }
 
 .logout {
+  background-color: #2c1d00;
   color: #fff;
   cursor: pointer;
-  background-color: #2c1d00;
   grid-column: span 2;
   margin: 0 auto 10px auto;
   padding: 5px 10px;
@@ -157,19 +156,13 @@ main h1 {
   margin-top: 0;
 }
 
-main label {
-  display: inline-block;
-  width: 150px;
-}
-
-main form div {
-  margin-bottom: 20px;
-}
-
-.username {
-  grid-column: 1;
-  margin: 0;
-  padding: 5px 0;
+#message {
+  border: 2px solid #2c1d00;
+  color: #0b61a5;
+  margin: 1rem 5px;
+  max-width: 400px;
+  padding: 1rem 15px;
+  width: 100%;
 }
 
 .errors {
@@ -178,6 +171,16 @@ main form div {
   display: inline-block;
   margin-bottom: 1rem;
   padding: 1rem;
+}
+
+
+main form div {
+  margin-bottom: 20px;
+}
+
+main label {
+  display: inline-block;
+  width: 150px;
 }
 
 table {
@@ -200,18 +203,6 @@ td {
   padding: 5px 10px;
 }
 
-.new-btn {
-  background-color: #424242;
-  color: #fff;
-  cursor: pointer;
-  font-size: 18px;
-  margin-bottom: 10px;
-  max-width: 160px;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-}
-
 .backlink {
   background-color: #2c1d00;
   max-width: 100px;
@@ -224,14 +215,6 @@ td {
   text-decoration: none;
 }
 
-#message {
-  border: 2px solid #2c1d00;
-  color: #0b61a5;
-  margin: 1rem 5px;
-  max-width: 400px;
-  padding: 1rem 15px;
-  width: 100%;
-}
 
 @media screen and (max-width: 950px) {
   nav {
@@ -282,32 +265,24 @@ td {
 #modalBox {
   background-color: #fff;
   border: 1px solid #000;
-  border-top: 18px solid #338e3e;
-  border-bottom: 18px solid #338e3e;
+  border-bottom: 18px solid #f5f5dc;
+  border-top: 18px solid #f5f5dc;
   box-shadow: 0 0 5px #000;
   display: grid;
   grid-template-columns: 150px auto;
-  grid-template-rows: auto auto auto auto auto;
-  margin: 2rem auto auto;
+  grid-template-rows: auto auto auto auto auto auto auto;
+  margin: 2rem auto;
   padding: 10px;
   position: relative;
   width: 80%;
 }
 
-#reviewBox {
-  background-color: #fff;
-  border: 1px solid #000;
-  border-top: 18px solid #338e3e;
-  border-bottom: 18px solid #338e3e;
-  box-shadow: 0 0 5px #000;
-  margin: 2rem auto auto;
-  padding: 10px;
-  position: relative;
-  width: 80%;
+#modalBox h3 {
+  margin: 0;
 }
 
-#reviewWriting {
-  display: none;
+#modalBox div:last-of-type {
+  grid-column: span 2;
 }
 
 #modalBox img {
@@ -318,8 +293,60 @@ td {
   margin: 0;
 }
 
-#modalBox div:last-of-type {
+#modalBox input {
+  background-color: #008000;
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+#modalBox a {
+  background-color: #008000;
+  border-radius: 5px;
+  color: #fff;
+  grid-row: 7;
+  margin-bottom: 10px;
+  max-width: 100px;
+  padding: 10px;
+  text-decoration: none;
+}
+
+#reviewBox {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-bottom: 18px solid #f5f5dc;
+  border-top: 18px solid #f5f5dc;
+  box-shadow: 0 0 5px #000;
+  margin: 2rem auto;
+  padding: 10px;
+  position: relative;
+  width: 80%;
+}
+
+.review {
+  background-color: #f5f5dc;
+  border-top: 4px solid #000;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows:  auto auto;
+  padding-left: 10px;
+}
+
+.review p:nth-of-type(3) {
   grid-column: span 2;
+}
+
+.replacement-image {
+  max-width: 200px;
+}
+
+#reviewWriting {
+  display: none;
+}
+
+textarea {
+  display: block;
 }
 
 #close {
@@ -338,29 +365,11 @@ td {
 }
 
 .bold {
-  font-weight: bold;
   font-size: 20px;
+  font-weight: bold;
   padding-top: 10px;
-}
-
-textarea {
-  display: block;
 }
 
 .hidden {
   display: none;
-}
-
-.review {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows:  auto auto;
-}
-
-.review p:nth-of-type(3) {
-  grid-column: span 2;
-}
-
-.replacement-image {
-  max-width: 200px;
 }
