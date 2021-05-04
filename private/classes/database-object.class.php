@@ -22,7 +22,6 @@ class DatabaseObject {
     while ($record = $result->fetch(PDO::FETCH_ASSOC)) {
         $object_array[] = static::instantiate($record);
       }
-    //  $result->free();
     return $object_array;
   }
 
@@ -64,14 +63,6 @@ class DatabaseObject {
     $sql .= ");";
 
     $stmt = self::$database->prepare($sql);
-    
-    // $stmt->bindValue(':common_name', $this->common_name );
-    // $stmt->bindValue(':habitat', $this->habitat );
-    // $stmt->bindValue(':food', $this->food );
-    // $stmt->bindValue(':conservation_id', $this->conservation_id );
-    // $stmt->bindValue('backyard_tips', $this->backyard_tips );
-    
-    //$result = self::$database->exec($sql);
     $result = $stmt->execute();
 
     if( $result ) {

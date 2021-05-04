@@ -75,4 +75,3 @@ include(SHARED_PATH . '/public-header.php');
     </main>
   </body>
 </html>
-

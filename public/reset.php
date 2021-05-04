@@ -28,13 +28,7 @@ require_once('../private/initialize.php');
     } elseif($confirmation_code != $_SESSION['confirmation_code']) {
       $errors['confirmation_code'] = "The confirmation code is incorrect.";
     }
-    
-    if(is_blank($new_password)) {
-    }
-
-    if($new_password != $confirm_password) {
-    }
-
+  
     // if there were no errors, try to reset password
     if(empty($errors)) {
       $admin = Admin::find_by_username($username);
@@ -66,6 +60,7 @@ require_once('../private/initialize.php');
   $captcha_page = true;
 
   include(SHARED_PATH . '/public-header.php');
+  
 ?>
 
     <main>

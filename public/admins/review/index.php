@@ -5,7 +5,6 @@
   require_admin();
 
   $reviews = Review::find_all();
-
   
   $current_page = 'review-home';
 
@@ -14,6 +13,7 @@
   include(SHARED_PATH . "/admin-header.php");
 
 ?>
+
     <main>
       <table class="list">
         <tr>

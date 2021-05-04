@@ -8,7 +8,9 @@
   $page_title = "Bookup: " . $subject_type . " Subject";
   
   include(SHARED_PATH . '/public-header.php');
+
 ?>
+
     <main>
       <h1><?php echo $subject_type ?></h1>
     </main>

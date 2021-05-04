@@ -1,7 +1,6 @@
 <?php
 
 require_once("../../../private/initialize.php");
-
 require_login();
 require_admin();
 
@@ -45,9 +44,9 @@ if(is_post_request()) {
 
 $captcha_page = true;
 
-?>
+include(SHARED_PATH . "/admin-header.php");
 
-<?php include(SHARED_PATH . "/admin-header.php"); ?>
+?>
 
     <main>
       <p class="backlink"><a href="<?php echo url_for('admins/category/index.php') ?>">&laquo; Back to List</a></p>
@@ -55,7 +54,6 @@ $captcha_page = true;
       <h1>Edit Category: <?php echo($category->category_name); ?></h1>
 
       <form action="<?php echo url_for('admins/category/edit.php?id=' . h(u($id))); ?>" method="post">
-
         <label for="category_name">Category:</label>
         <input type="text" id="category_name" name="category[category_name]"> <?php echo display_errors($category->errors); ?>
 
@@ -65,7 +63,6 @@ $captcha_page = true;
 
         <input type="submit" value="Update Category">
       </form>
-
     </main>
   </body>
 </html>

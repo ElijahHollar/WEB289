@@ -37,18 +37,6 @@
       }
     }
 
-
-    // static public function get_book_by_isbn($isbn) {
-    //   $sql = "SELECT * FROM " . static::$table_name . " ";
-    //   $sql .= "WHERE bookshelf_item_isbn=" . $isbn;
-    //   $object_array = static::find_by_sql($sql);
-    //   if(!empty($object_array)) {
-    //     return $object_array;
-    //   } else {
-    //     return false;
-    //   }
-    // }    
-
     protected function validate() {
       $this->errors = [];
     

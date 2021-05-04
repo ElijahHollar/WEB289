@@ -13,8 +13,8 @@
   include(SHARED_PATH . "/admin-header.php");
 
 ?>
-    <main>
 
+    <main>
       <p class="new-btn"><a class="new-btn" href="new.php">Add new Category</a></p>
 
       <table class="list">

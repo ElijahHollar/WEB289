@@ -34,7 +34,6 @@ class Session {
   }
   
   public function is_logged_in() {
-    // return isset($this->admin_id);
     return isset($this->admin_id) && $this->last_login_is_recent();
     
   }

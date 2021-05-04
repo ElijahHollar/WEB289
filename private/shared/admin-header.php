@@ -10,7 +10,6 @@ if(!isset($page_title)) {
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>

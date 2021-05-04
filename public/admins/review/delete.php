@@ -1,7 +1,6 @@
 <?php
 
 require_once("../../../private/initialize.php");
-
 require_login();
 require_admin();
 
@@ -30,9 +29,9 @@ if(is_post_request()) {
   // display the form
 }
 
-?>
+include(SHARED_PATH . "/admin-header.php");
 
-<?php include(SHARED_PATH . "/admin-header.php"); ?>
+?>
 
     <main>
       <p class="backlink"><a href="<?php echo url_for('admins/review/index.php') ?>">&laquo; Back to List</a></p>
@@ -43,7 +42,6 @@ if(is_post_request()) {
       <form action="<?php echo url_for('/admins/review/delete.php?id=' . h(u($id))); ?>" method="post">
         <input type="submit" value="Delete Review">
       </form>
-
     </main>
   </body>
 </html>
