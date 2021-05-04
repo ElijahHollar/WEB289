@@ -60,7 +60,7 @@ require_once('../private/initialize.php');
   $captcha_page = true;
 
   include(SHARED_PATH . '/public-header.php');
-  
+
 ?>
 
     <main>
@@ -85,7 +85,7 @@ require_once('../private/initialize.php');
         </div>
         
         <div>
-          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
+          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LfAjMQaAAAAAPgjZnqdQD41KI_rferzdpL8n13H"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
         </div>
 
         <input type="submit" value="Reset Password">

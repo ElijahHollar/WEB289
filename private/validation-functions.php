@@ -156,7 +156,7 @@ function already_in_bookshelf($isbn, $user_id) {
  *
  */
 function reCaptcha($recaptcha){
-  $secret = "6LeNkcQaAAAAAA3uiy0of9pY534SXyfT1vANNqCn";
+  $secret = "6LfAjMQaAAAAAGEoaYOUdU7AGHKOuVJCE4RWFAqB";
   $ip = $_SERVER['REMOTE_ADDR'];
 
   $postvars = array("secret"=>$secret, "response"=>$recaptcha, "remoteip"=>$ip);

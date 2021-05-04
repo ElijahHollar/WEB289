@@ -58,7 +58,7 @@ include(SHARED_PATH . "/admin-header.php");
         <input type="text" id="category_name" name="category[category_name]"> <?php echo display_errors($category->errors); ?>
 
         <div>
-          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LeNkcQaAAAAAGZjWfi9je8Zt7NnoimBtA_jJ_HB"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
+          <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LfAjMQaAAAAAPgjZnqdQD41KI_rferzdpL8n13H"></div> <?php if(isset($errors['captcha'])) { echo($errors['captcha']); } ?>
         </div>
 
         <input type="submit" value="Update Category">
